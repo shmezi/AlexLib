@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "1.7.0"
+    id("maven-publish")
 }
 
-group = "org.example"
+group = "me.alexirving.lib.Main"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -12,13 +11,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
+    implementation("org.litote.kmongo:kmongo:4.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
 }

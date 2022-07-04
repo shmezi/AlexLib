@@ -1,11 +1,11 @@
-package me.alexirving.pterobot.database.nosql
+package me.alexirving.lib.database.nosql
 
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
-import me.alexirving.pterobot.database.Cacheable
+import me.alexirving.lib.database.Cacheable
 import org.bson.UuidRepresentation
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.ensureUniqueIndex

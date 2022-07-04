@@ -1,4 +1,4 @@
-package me.alexirving.pterobot
+package me.alexirving.lib
 
 enum class Colors(private val value: String) {
     RESET("\u001B[0m"),

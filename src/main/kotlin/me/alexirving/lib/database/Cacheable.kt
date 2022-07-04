@@ -1,4 +1,4 @@
-package me.alexirving.pterobot.database
+package me.alexirving.lib.database
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty

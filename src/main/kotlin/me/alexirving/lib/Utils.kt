@@ -1,26 +1,10 @@
-package me.alexirving.pterobot
+package me.alexirving.lib
 
-import com.mattmalec.pterodactyl4j.PteroBuilder
-import com.mattmalec.pterodactyl4j.client.entities.PteroClient
-import okhttp3.OkHttpClient
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import kotlin.random.Random
 
-val okHttp = OkHttpClient()
-
-fun buildClientSafely(url: String?, key: String, async: (client: PteroClient?) -> Unit) {
-    val pc = PteroBuilder.create(url, key).setHttpClient(okHttp).buildClient()
-    pc.retrieveAccount().executeAsync(
-        {
-            async(pc)
-        },
-        {
-            async(null)
-        }
-    )
-}
 
 fun copyOver(dataFolder: File, vararg fileNames: String) {
     for (name in fileNames) {

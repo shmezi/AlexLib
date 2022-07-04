@@ -1,4 +1,4 @@
-package me.alexirving.pterobot.database
+package me.alexirving.lib.database
 
 import java.util.*
 

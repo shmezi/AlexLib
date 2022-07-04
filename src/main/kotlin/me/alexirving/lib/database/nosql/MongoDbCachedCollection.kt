@@ -1,11 +1,11 @@
-package me.alexirving.pterobot.database.nosql
+package me.alexirving.lib.database.nosql
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.ReplaceOptions
 import kotlinx.coroutines.runBlocking
-import me.alexirving.pterobot.database.Cacheable
-import me.alexirving.pterobot.database.CachedDbManager
-import me.alexirving.pterobot.database.Database
+import me.alexirving.lib.database.Cacheable
+import me.alexirving.lib.database.CachedDbManager
+import me.alexirving.lib.database.Database
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import java.net.ConnectException

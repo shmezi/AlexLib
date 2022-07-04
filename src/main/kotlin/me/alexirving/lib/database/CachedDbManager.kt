@@ -1,4 +1,4 @@
-package me.alexirving.pterobot.database
+package me.alexirving.lib.database
 
 /**
  * A managed set of data that is cached.
