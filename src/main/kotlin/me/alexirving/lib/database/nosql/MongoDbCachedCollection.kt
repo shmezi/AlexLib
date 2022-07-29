@@ -1,11 +1,16 @@
 package me.alexirving.lib.database.nosql
 
+import com.mongodb.ConnectionString
+import com.mongodb.MongoClientSettings
+import com.mongodb.MongoCredential
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.ReplaceOptions
 import kotlinx.coroutines.runBlocking
 import me.alexirving.lib.database.Cacheable
 import me.alexirving.lib.database.CachedDbManager
 import me.alexirving.lib.database.Database
+import org.bson.UuidRepresentation
+import org.litote.kmongo.KMongo
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import java.net.ConnectException
@@ -25,6 +30,12 @@ class MongoDbCachedCollection<ID : Any, T : Cacheable<ID>>
         ec = connection.register(dbId, type) as? MongoCollection<Cacheable<ID>>
             ?: throw ConnectException("Failed to register mongo collection | or data types mismatched.")
 
+    }
+
+    companion object {
+        init {
+            System.setProperty("org.litote.mongo.test.mapping.service", "org.litote.kmongo.jackson.JacksonClassMappingTypeService")
+        }
     }
 
 

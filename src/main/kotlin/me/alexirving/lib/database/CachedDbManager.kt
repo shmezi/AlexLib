@@ -1,5 +1,8 @@
 package me.alexirving.lib.database
 
+import me.alexirving.lib.Colors
+import me.alexirving.lib.color
+
 /**
  * A managed set of data that is cached.
  * @param db The database to use for actions
@@ -117,7 +120,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      * Runs an update job, this will update all data in the database from cache and clear caches.
      */
     open fun update() {
-        println("Running DB update on \"${db.dbId}\", updating ${updates.size} items!")
+        println("Running DB update on \"${db.dbId}\", updating ${updates.size} items!".color(Colors.BLUE))
         for (u in updates) {
             db.dbUpdate(cache[u] ?: continue)
         }
