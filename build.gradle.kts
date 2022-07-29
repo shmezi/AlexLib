@@ -3,8 +3,10 @@ plugins {
     id("maven-publish")
 }
 
-group = "me.alexirving.lib.MainKt"
-version = "1.0"
+group = "com.github.shmezi"
+
+version = "1.1"
+
 
 repositories {
     mavenCentral()
