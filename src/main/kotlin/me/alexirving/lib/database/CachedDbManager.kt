@@ -13,10 +13,10 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
     private val db: Database<ID, Cacheable<ID>>,
     private val template: T
 ) {
-    private val cache = mutableMapOf<String, T>() //Cache of all currently loaded users
-    private val updates = mutableSetOf<String>() //The users that their data has changed and db needs to be changed
-    private val removals = mutableSetOf<String>() //The users that will be remove from the db next update
-    private val cacheRemovals = mutableSetOf<String>() //The users that will be removed next cache update
+    private val cache = mutableMapOf<ID, T>() //Cache of all currently loaded users
+    private val updates = mutableSetOf<ID>() //The users that their data has changed and db needs to be changed
+    private val removals = mutableSetOf<ID>() //The users that will be remove from the db next update
+    private val cacheRemovals = mutableSetOf<ID>() //The users that will be removed next cache update
 
     init {
         Runtime.getRuntime().addShutdownHook(Thread {
@@ -29,7 +29,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      * @param identifier - identifier of the user
      * @return if the user is currently cached ( does not include users that will be removed soon by an update
      */
-    open fun isCached(identifier: String) = cache.containsKey(identifier) && !cacheRemovals.contains(identifier)
+    open fun isCached(identifier: ID) = cache.containsKey(identifier) && !cacheRemovals.contains(identifier)
 
     /**
      * Get data from the database.
@@ -38,14 +38,14 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      * @param update - Should the database update the data
      * @param async - Will be called once data is retrieved
      */
-    open fun get(identifier: String, update: Boolean, async: (value: T) -> Unit) {
+    open fun get(identifier: ID, update: Boolean, async: (value: T) -> Unit) {
         if (cache.containsKey(identifier)) {
             val q = cache[identifier] ?: return
             async(q)//Don't move down as I want to make sure the data is changed before the database update.
         } else {
             db.dbGet(identifier) {
                 if (it == null) {
-                    val t = template.clone().apply { this.identifier = identifier } as T
+                    val t = template.clone().apply { this.identifier = identifier} as T
                     cache[t.identifier] = t
                     async(t) //Don't move down as I want to make sure the data is changed before the database update.
                     updates.add(t.identifier)
@@ -66,7 +66,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      * @param identifier - identifier of user
      * @param async - Will be called once data is retrieved
      */
-    open fun get(identifier: String, async: (value: T) -> Unit) = get(identifier, false, async)
+    open fun get(identifier: ID, async: (value: T) -> Unit) = get(identifier, false, async)
 
     open fun list() {
 
@@ -80,7 +80,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      * @param success - Will be called if the data is retrieved
      * @param failure - Will be called if the user is not in the database
      */
-    open fun getIfInDb(identifier: String, success: (value: T) -> Unit, failure: () -> Unit) {
+    open fun getIfInDb(identifier: ID, success: (value: T) -> Unit, failure: () -> Unit) {
         db.dbGet(identifier) {
             if (it != null)
                 success(it as T)
@@ -95,14 +95,14 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      * @param identifier - identifier of user
      * @param async - Will be called if the data of the user exists
      */
-    open fun getIfInDb(identifier: String, async: (value: T) -> Unit) = getIfInDb(identifier, async) {}
+    open fun getIfInDb(identifier: ID, async: (value: T) -> Unit) = getIfInDb(identifier, async) {}
 
     /**
      * Checks if a user is in the database.
      * @param identifier - identifier of user
      * @param async - Called with the result
      */
-    open fun doesExist(identifier: String, async: (bool: Boolean) -> Unit) {
+    open fun doesExist(identifier: ID, async: (bool: Boolean) -> Unit) {
         db.dbGet(identifier) {
             async(it != null)
         }
@@ -111,7 +111,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
     /**
      * Deletes the user from the database
      */
-    open fun delete(identifier: String) {
+    open fun delete(identifier: ID) {
         if (cache.containsKey(identifier)) cache.remove(identifier)
         removals.add(identifier)
     }
@@ -136,7 +136,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
     /**
      * Safely unload a user from the cache
      */
-    open fun unload(identifier: String) {
+    open fun unload(identifier: ID) {
         cacheRemovals.add(identifier)
     }
 
@@ -145,7 +145,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      * The use of this is to reduce uncaching data, can be run for example when player joins before loading data.
      * @return returns true if the user was not cleared from the cache yet
      */
-    open fun cancelUnload(identifier: String) = cacheRemovals.remove(identifier)
+    open fun cancelUnload(identifier: ID) = cacheRemovals.remove(identifier)
 
 
 }

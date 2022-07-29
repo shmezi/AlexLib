@@ -22,11 +22,13 @@ data class MongoConnection(private val client: MongoClient, private val name: St
         ), name
     )
 
-    init {
-        System.setProperty(
-            "org.litote.mongo.test.mapping.service",
-            "org.litote.kmongo.jackson.JacksonClassMappingTypeService"
-        )
+    companion object {
+        init {
+            System.setProperty(
+                "org.litote.mongo.test.mapping.service",
+                "org.litote.kmongo.jackson.JacksonClassMappingTypeService"
+            )
+        }
     }
 
     private val db: MongoDatabase = client.getDatabase(name)
@@ -37,6 +39,11 @@ data class MongoConnection(private val client: MongoClient, private val name: St
         return collections[key]
     }
 
+    /**
+     * Register a collection in the connection.
+     *
+     * This will ensure its set up correctly.
+     */
     fun register(name: String, type: Cacheable<*>): MongoCollection<out Cacheable<*>>? {
         val c = db.getCollection(name, type::class.java)
         c.ensureUniqueIndex(type::identifier)

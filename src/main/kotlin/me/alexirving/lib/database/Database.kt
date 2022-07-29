@@ -18,7 +18,7 @@ interface Database<ID : Any, T : Cacheable<ID>> {
     /**
      * Retrieve a data from the database
      */
-    fun dbGet(id: String, async: (value: T?) -> Unit)
+    fun dbGet(id: ID, async: (value: T?) -> Unit)
 
     /**
      * Update data in the database
@@ -28,7 +28,7 @@ interface Database<ID : Any, T : Cacheable<ID>> {
     /**
      * Delete data in the database
      */
-    fun dbDelete(key: UUID)
+    fun dbDelete(key: ID)
 
     /**
      * Retrieve a list of contents of the database

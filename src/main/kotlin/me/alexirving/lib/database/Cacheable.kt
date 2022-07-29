@@ -8,23 +8,16 @@ import java.util.*
  * Represents an object that can be cached
  * @param ID Type of identifier
  */
-abstract class Cacheable<ID : Any> : Cloneable {
+abstract class Cacheable<ID : Any>(
+    @JsonProperty var identifier: ID
+) : Cloneable {
 
-
-    @JsonProperty
-    var identifier: String
-
-
-    constructor() {
-        this.identifier = UUID.randomUUID().toString()
-    }
-
-    constructor(id: ID) {
-        this.identifier = id.toString()
-    }
 
     @JsonIgnore
-    fun getIdentifierAsUUID(): UUID = UUID.fromString(identifier)
+
+    @JsonProperty
+    fun getIdentifier() = identifier.toString()
+
 
     public override fun clone(): Cacheable<ID> {
         return super.clone() as Cacheable<ID>
