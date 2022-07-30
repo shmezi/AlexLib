@@ -2,7 +2,6 @@ package me.alexirving.lib.database
 
 import me.alexirving.lib.Colors
 import me.alexirving.lib.color
-import me.alexirving.lib.pq
 
 /**
  * A managed set of data that is cached.
@@ -10,7 +9,7 @@ import me.alexirving.lib.pq
  * @param ID type of ID used for storage, example UUID
  * @param T Data struct that is used
  */
-open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
+open class CachedDbManager<ID, T : Cacheable<ID>>(
     private val db: Database<ID, Cacheable<ID>>,
     private val template: T
 ) {
@@ -46,7 +45,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
         } else {
             db.dbGet(identifier) {
                 if (it == null) {
-                    val t = template.clone().apply { this.identifier = identifier} as T
+                    val t = template.clone().apply { this.identifier = identifier } as T
                     cache[t.identifier] = t
                     async(t) //Don't move down as I want to make sure the data is changed before the database update.
                     updates.add(t.identifier)
@@ -121,8 +120,11 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      * Runs an update job, this will update all data in the database from cache and clear caches.
      */
     open fun update() {
-        println("Running DB update on \"${db.dbId}\", updating ${updates.size} items!".color(Colors.BLUE))
-        cache.map { it.value.identifier }.pq("Cache")
+        if (updates.isNotEmpty())
+            println("Running DB update on \"${db.dbId}\", updating ${updates.size} items!".color(Colors.BLUE))
+        else
+            println("Running DB update on \"${db.dbId}\", No update issued".color(Colors.GREEN))
+
         for (u in updates) {
             db.dbUpdate(cache[u] ?: continue)
         }

@@ -8,7 +8,7 @@ import java.util.*
  * Represents an object that can be cached
  * @param ID Type of identifier
  */
-abstract class Cacheable<ID : Any>(
+abstract class Cacheable<ID>(
     @JsonProperty var identifier: ID
 ) : Cloneable {
 

@@ -12,7 +12,7 @@ import org.litote.kmongo.findOne
 import java.net.ConnectException
 import java.util.*
 
-class MongoDbCachedCollection<ID : Any, T : Cacheable<ID>>
+class MongoDbCachedCollection<ID , T : Cacheable<ID>>
     (
     override val dbId: String,
     private val type: T,

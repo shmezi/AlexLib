@@ -5,7 +5,7 @@ package me.alexirving.lib.database
  * For example: Caching a text channel while at least one of the members is online.
  *
  */
-open class GroupCachedManager<ID : Any, UserID, T : Cacheable<ID>>(db: Database<ID, Cacheable<ID>>, template: T) :
+open class GroupCachedManager<ID, UserID, T : Cacheable<ID>>(db: Database<ID, Cacheable<ID>>, template: T) :
     CachedDbManager<ID, T>(db, template) {
     protected val groups = mutableMapOf<ID, MutableSet<UserID>>()
     private val userCache = mutableMapOf<UserID, MutableSet<ID>>()

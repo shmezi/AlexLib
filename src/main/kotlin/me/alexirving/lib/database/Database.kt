@@ -8,7 +8,7 @@ import java.util.*
  * @param ID type of identifier
  * @param T data struct this db will use
  */
-interface Database<ID : Any, T : Cacheable<ID>> {
+interface Database<ID, T : Cacheable<ID>> {
     val dbId:String
     /**
      * Reload the database
