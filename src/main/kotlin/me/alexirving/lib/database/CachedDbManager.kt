@@ -2,6 +2,7 @@ package me.alexirving.lib.database
 
 import me.alexirving.lib.Colors
 import me.alexirving.lib.color
+import me.alexirving.lib.pq
 
 /**
  * A managed set of data that is cached.
@@ -121,6 +122,7 @@ open class CachedDbManager<ID : Any, T : Cacheable<ID>>(
      */
     open fun update() {
         println("Running DB update on \"${db.dbId}\", updating ${updates.size} items!".color(Colors.BLUE))
+        cache.map { it.value.identifier }.pq("Cache")
         for (u in updates) {
             db.dbUpdate(cache[u] ?: continue)
         }

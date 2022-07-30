@@ -6,7 +6,10 @@ import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import me.alexirving.lib.database.Cacheable
+import me.alexirving.lib.pq
 import org.bson.UuidRepresentation
+import org.bson.codecs.UuidCodecProvider
+import org.bson.codecs.configuration.CodecRegistries
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.ensureUniqueIndex
 
@@ -18,7 +21,9 @@ data class MongoConnection(private val client: MongoClient, private val name: St
     constructor(connection: String, name: String) : this(
         KMongo.createClient(
             MongoClientSettings.builder().uuidRepresentation(UuidRepresentation.STANDARD)
-                .applyConnectionString(ConnectionString(connection)).build()
+                .applyConnectionString(ConnectionString(connection))
+
+                .build().apply { uuidRepresentation.pq("t") }
         ), name
     )
 
@@ -32,6 +37,7 @@ data class MongoConnection(private val client: MongoClient, private val name: St
     }
 
     private val db: MongoDatabase = client.getDatabase(name)
+    private val registries = db.codecRegistry
 
     private val collections = mutableMapOf<String, MongoCollection<out Cacheable<*>>>()
 
@@ -45,7 +51,12 @@ data class MongoConnection(private val client: MongoClient, private val name: St
      * This will ensure its set up correctly.
      */
     fun register(name: String, type: Cacheable<*>): MongoCollection<out Cacheable<*>>? {
-        val c = db.getCollection(name, type::class.java)
+        val c = db.getCollection(name, type::class.java).withCodecRegistry(
+            CodecRegistries.fromProviders(
+                UuidCodecProvider(UuidRepresentation.JAVA_LEGACY), registries
+            )
+        )
+
         c.ensureUniqueIndex(type::identifier)
         collections[name] = c
         return c

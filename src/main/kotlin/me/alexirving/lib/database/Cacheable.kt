@@ -13,10 +13,7 @@ abstract class Cacheable<ID : Any>(
 ) : Cloneable {
 
 
-    @JsonIgnore
 
-    @JsonProperty
-    fun getIdentifier() = identifier.toString()
 
 
     public override fun clone(): Cacheable<ID> {

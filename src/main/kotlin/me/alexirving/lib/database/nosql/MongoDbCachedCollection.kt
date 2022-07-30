@@ -6,6 +6,7 @@ import kotlinx.coroutines.runBlocking
 import me.alexirving.lib.database.Cacheable
 import me.alexirving.lib.database.CachedDbManager
 import me.alexirving.lib.database.Database
+import me.alexirving.lib.pq
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import java.net.ConnectException
@@ -52,7 +53,7 @@ class MongoDbCachedCollection<ID : Any, T : Cacheable<ID>>
 
     override fun dbGet(id: ID, async: (value: Cacheable<ID>?) -> Unit) {
         runBlocking {
-            async(ec.findOne(Cacheable<ID>::identifier eq id))
+            async(ec.findOne(Cacheable<ID>::identifier eq id).pq())
 
         }
     }

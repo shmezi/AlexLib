@@ -3,7 +3,9 @@ package me.alexirving.lib.database.nosql
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.MongoCredential
+import me.alexirving.lib.pq
 import org.bson.UuidRepresentation
+import org.bson.codecs.JsonObjectCodec
 import org.litote.kmongo.KMongo
 
 /**
@@ -19,7 +21,7 @@ object MongoUtils {
     /**
      * Build a default simple Mongo Client without credentials.
      */
-    fun defaultClient(connection: String) = KMongo.createClient(
+    fun defaultClient(connection: String = "mongodb://localhost") = KMongo.createClient(
         MongoClientSettings.builder().uuidRepresentation(UuidRepresentation.STANDARD)
             .applyConnectionString(ConnectionString(connection)).build()
     )
