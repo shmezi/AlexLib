@@ -25,7 +25,9 @@ data class MongoConnection(private val client: MongoClient, private val name: St
 
                 .build().apply { uuidRepresentation.pq("t") }
         ), name
-    )
+
+    ) {
+    }
 
     companion object {
         init {
@@ -50,14 +52,15 @@ data class MongoConnection(private val client: MongoClient, private val name: St
      *
      * This will ensure its set up correctly.
      */
-    fun register(name: String, type: Cacheable<*>): MongoCollection<out Cacheable<*>>? {
-        val c = db.getCollection(name, type::class.java).withCodecRegistry(
+    fun <ID> register(name: String, clazz: Class<out Cacheable<ID>>): MongoCollection<out Cacheable<*>>? {
+        val c = db.getCollection(name, clazz).withCodecRegistry(
             CodecRegistries.fromProviders(
                 UuidCodecProvider(UuidRepresentation.JAVA_LEGACY), registries
             )
         )
 
-        c.ensureUniqueIndex(type::identifier)
+
+        c.ensureUniqueIndex(Cacheable<ID>::identifier)
         collections[name] = c
         return c
     }

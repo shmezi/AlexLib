@@ -18,12 +18,15 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.7")
     implementation("com.google.code.gson:gson:2.9.0")
-}
+    testImplementation(kotlin("test"))}
 
 
 val sourcesJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
+}
+tasks.test {
+    useJUnitPlatform()
 }
 publishing {
     publications {

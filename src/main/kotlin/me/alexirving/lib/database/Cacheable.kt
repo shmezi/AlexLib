@@ -11,12 +11,7 @@ import java.util.*
 abstract class Cacheable<ID>(
     @JsonProperty var identifier: ID
 ) : Cloneable {
-
-
-
-
-
-    public override fun clone(): Cacheable<ID> {
+public override fun clone(): Cacheable<ID> {
         return super.clone() as Cacheable<ID>
     }
 }

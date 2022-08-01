@@ -12,10 +12,10 @@ import org.litote.kmongo.findOne
 import java.net.ConnectException
 import java.util.*
 
-class MongoDbCachedCollection<ID , T : Cacheable<ID>>
+class MongoDbCachedCollection<ID, T : Cacheable<ID>>
     (
     override val dbId: String,
-    private val type: T,
+    private val type: Class<T>,
     connection: MongoConnection,
     var cacheClear: Long = -1
 ) :
@@ -58,5 +58,5 @@ class MongoDbCachedCollection<ID , T : Cacheable<ID>>
         }
     }
 
-    fun getManager() = CachedDbManager(this, type)
+    fun getManager(template: T) = CachedDbManager(this, template)
 }
