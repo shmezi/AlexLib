@@ -5,7 +5,7 @@ plugins {
 
 group = "com.github.shmezi"
 
-version = "1.2"
+version = "1.1"
 
 
 repositories {
