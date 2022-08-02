@@ -38,7 +38,7 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
      * @param update - Should the database update the data
      * @param async - Will be called once data is retrieved
      */
-    open fun get(identifier: ID, update: Boolean, async: (value: T) -> Unit) {
+    open fun get(identifier: ID, update: Boolean = false, async: (value: T) -> Unit) {
         if (cache.containsKey(identifier)) {
             val q = cache[identifier] ?: return
             async(q)//Don't move down as I want to make sure the data is changed before the database update.
@@ -60,17 +60,8 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
             updates.add(identifier)
     }
 
-    /**
-     * Get data from the database.
-     * This will load/create the user if they do are not currently cached/existent.
-     * @param identifier - identifier of user
-     * @param async - Will be called once data is retrieved
-     */
-    open fun get(identifier: ID, async: (value: T) -> Unit) = get(identifier, false, async)
 
-    open fun list() {
-
-    }
+    open fun list() {}
 
 
     /**
