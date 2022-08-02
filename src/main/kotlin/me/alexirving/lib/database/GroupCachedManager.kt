@@ -15,7 +15,7 @@ open class GroupCachedManager<ID, UserID, T : Cacheable<ID>>(db: Database<ID, Ca
     fun loadUser(groupId: ID, userID: UserID) {
         groups.getOrPut(groupId) { mutableSetOf() }.add(userID)
         userCache.getOrPut(userID) { mutableSetOf() }.add(groupId)
-        if (!super.cancelUnload(groupId)) super.get(groupId) {
+        if (!super.cancelUnload(groupId)) super.get(groupId, false) {
 
         }
     }
