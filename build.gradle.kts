@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.7.0"
     id("maven-publish")
+    id("java-library")
 }
 
 
@@ -9,11 +10,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
-    implementation("org.litote.kmongo:kmongo:4.7.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.7")
-    implementation("com.google.code.gson:gson:2.9.0")
+    api("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
+    api("org.litote.kmongo:kmongo:4.7.0")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    api("com.squareup.okhttp3:okhttp:5.0.0-alpha.7")
+    api("com.google.code.gson:gson:2.9.0")
     testImplementation(kotlin("test"))}
 
 
