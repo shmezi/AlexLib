@@ -30,7 +30,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "me.alexirving.lib"
             artifactId = "alex-lib"
-            version = "1.1.0"
+            version = "2.0"
 
             from(components["java"])
         }
