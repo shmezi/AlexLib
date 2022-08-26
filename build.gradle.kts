@@ -3,10 +3,6 @@ plugins {
     id("maven-publish")
 }
 
-group = "com.github.shmezi"
-
-version = "1.5.1"
-
 
 repositories {
     mavenCentral()
@@ -21,18 +17,22 @@ dependencies {
     testImplementation(kotlin("test"))}
 
 
-val sourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
+
+
+tasks{
+        test {
+            useJUnitPlatform()
+        }
 }
-tasks.test {
-    useJUnitPlatform()
-}
+
 publishing {
     publications {
-        register("mavenJava", MavenPublication::class) {
+        create<MavenPublication>("maven") {
+            groupId = "me.alexirving.lib"
+            artifactId = "alex-lib"
+            version = "1.1.0"
+
             from(components["java"])
-            artifact(sourcesJar.get())
         }
     }
 }
