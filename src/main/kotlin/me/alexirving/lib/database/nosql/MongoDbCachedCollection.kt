@@ -3,9 +3,9 @@ package me.alexirving.lib.database.nosql
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.ReplaceOptions
 import kotlinx.coroutines.runBlocking
-import me.alexirving.lib.database.Cacheable
-import me.alexirving.lib.database.CachedDbManager
-import me.alexirving.lib.database.Database
+import me.alexirving.lib.database.model.Cacheable
+import me.alexirving.lib.database.model.Database
+import me.alexirving.lib.database.model.manager.CachedDbManager
 import me.alexirving.lib.pq
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
@@ -15,9 +15,8 @@ import java.util.*
 class MongoDbCachedCollection<ID, T : Cacheable<ID>>
     (
     override val dbId: String,
-    private val type: Class<T>,
-    connection: MongoConnection,
-    var cacheClear: Long = -1
+    type: Class<T>,
+    connection: MongoConnection
 ) :
     Database<ID, Cacheable<ID>> {
     private val ec: MongoCollection<Cacheable<ID>>

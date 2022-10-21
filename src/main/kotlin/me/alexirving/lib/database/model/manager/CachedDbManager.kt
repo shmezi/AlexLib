@@ -1,17 +1,22 @@
-package me.alexirving.lib.database
+package me.alexirving.lib.database.model.manager
 
 import me.alexirving.lib.Colors
 import me.alexirving.lib.color
+import me.alexirving.lib.database.Scheduler
+import me.alexirving.lib.database.model.Cacheable
+import me.alexirving.lib.database.model.Database
 
 /**
  * A managed set of data that is cached.
  * @param db The database to use for actions
  * @param ID type of ID used for storage, example UUID
  * @param T Data struct that is used
+ * @param autoUpdate Should the database automatically update every X amount. (-1 for none)
  */
 open class CachedDbManager<ID, T : Cacheable<ID>>(
     private val db: Database<ID, Cacheable<ID>>,
-    private val template: T
+    private val template: T,
+    autoUpdate: Long = -1
 ) {
     private val cache = mutableMapOf<ID, T>() //Cache of all currently loaded users
     private val updates = mutableSetOf<ID>() //The users that their data has changed and db needs to be changed
@@ -22,6 +27,10 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
         Runtime.getRuntime().addShutdownHook(Thread {
             update()
         })
+        if (autoUpdate > 0)
+            Scheduler.repeat("${db.dbId}-AUTO-UPDATER", 0, autoUpdate) {
+                update()
+            }
     }
 
     /**
@@ -116,11 +125,12 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
         else
             println("Running DB update on \"${db.dbId}\", No update issued".color(Colors.GREEN))
 
-        for (u in updates) {
-            db.dbUpdate(cache[u] ?: continue)
+        for (update in updates) {
+            db.dbUpdate(cache[update] ?: continue)
         }
         for (d in removals)
             db.dbUpdate(cache[d] ?: continue)
+
         for (cd in cacheRemovals)
             cache.remove(cd)
         updates.clear()

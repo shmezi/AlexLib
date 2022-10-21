@@ -1,4 +1,7 @@
-package me.alexirving.lib.database
+package me.alexirving.lib.database.model.manager
+
+import me.alexirving.lib.database.model.Cacheable
+import me.alexirving.lib.database.model.Database
 
 /**
  * Extending the functionality of [CachedDbManager] this allows to cache data based on multiple ids.

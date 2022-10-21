@@ -1,8 +1,6 @@
-package me.alexirving.lib.database
+package me.alexirving.lib.database.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.util.*
 
 /**
  * Represents an object that can be cached

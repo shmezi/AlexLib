@@ -1,6 +1,4 @@
-package me.alexirving.lib.database
-
-import java.util.*
+package me.alexirving.lib.database.model
 
 /**
  * Represents an async database.

@@ -5,7 +5,8 @@ import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
-import me.alexirving.lib.database.Cacheable
+import me.alexirving.lib.database.model.Cacheable
+import me.alexirving.lib.database.model.Connection
 import me.alexirving.lib.pq
 import org.bson.UuidRepresentation
 import org.bson.codecs.UuidCodecProvider
@@ -16,7 +17,8 @@ import org.litote.kmongo.ensureUniqueIndex
 /**
  * Defines a connection to a mongoDb database
  */
-data class MongoConnection(private val client: MongoClient, private val name: String) {
+data class MongoConnection(private val client: MongoClient, private val name: String) :
+    Connection<MongoCollection<out Cacheable<*>>?>() {
 
     constructor(connection: String, name: String) : this(
         KMongo.createClient(
@@ -43,8 +45,9 @@ data class MongoConnection(private val client: MongoClient, private val name: St
 
     private val collections = mutableMapOf<String, MongoCollection<out Cacheable<*>>>()
 
-    operator fun get(key: String): MongoCollection<out Cacheable<*>>? {
-        return collections[key]
+
+    override fun get(id: String): MongoCollection<out Cacheable<*>>? {
+        return collections[id]
     }
 
     /**
@@ -52,8 +55,8 @@ data class MongoConnection(private val client: MongoClient, private val name: St
      *
      * This will ensure its set up correctly.
      */
-    fun <ID> register(name: String, clazz: Class<out Cacheable<ID>>): MongoCollection<out Cacheable<*>>? {
-        val c = db.getCollection(name, clazz).withCodecRegistry(
+    override fun <ID> register(id: String, clazz: Class<out Cacheable<ID>>): MongoCollection<out Cacheable<*>>? {
+        val c = db.getCollection(id, clazz).withCodecRegistry(
             CodecRegistries.fromProviders(
                 UuidCodecProvider(UuidRepresentation.JAVA_LEGACY), registries
             )
@@ -61,7 +64,7 @@ data class MongoConnection(private val client: MongoClient, private val name: St
 
 
         c.ensureUniqueIndex(Cacheable<ID>::identifier)
-        collections[name] = c
+        collections[id] = c
         return c
     }
 }
