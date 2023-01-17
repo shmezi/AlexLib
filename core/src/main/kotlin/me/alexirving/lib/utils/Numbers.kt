@@ -1,5 +1,7 @@
 package me.alexirving.lib.utils
 
+import kotlin.math.max
+
 
 enum class RomanNumerals(val amount: Int) {
     M(1000),
@@ -29,3 +31,5 @@ fun Int.toRoman(): String {
     }
     return appendable.toString()
 }
+
+fun Int.nbz() = max(0, this)

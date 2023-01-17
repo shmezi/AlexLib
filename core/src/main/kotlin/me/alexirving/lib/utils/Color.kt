@@ -21,6 +21,7 @@ enum class Colors(private val value: String) {
 
 
     fun colorize() = value
+    fun c() = colorize()
 }
 
 fun String.color(vararg colors: Colors): String {

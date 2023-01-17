@@ -1,18 +1,19 @@
 package me.alexirving.lib.commands.command.builder
 
 import me.alexirving.lib.commands.Permission
+import me.alexirving.lib.commands.command.BaseCommand
 import me.alexirving.lib.commands.command.CommandInfo
 
-open class Context<U, C : CommandInfo<U>, P : Permission<*>>(
-    private val name: String,
+class Context<U, C : CommandInfo<U>, P : Permission<*>>(
+    private val base: BaseCommand<U, C, P>,
     val command: CommandBuilder<U, C, P>.() -> Unit
 ) {
-    fun build() {
+
+
+    fun build(): BaseCommand<U, C, P> {
         //The builder that is passed on to the context area of the builder.
-        val builder = CommandBuilder<U, C, P>(name)
+        val builder = CommandBuilder(base)
         command(builder)
-        builder.build()
-
-
+        return builder.build()
     }
 }

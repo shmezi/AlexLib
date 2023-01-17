@@ -10,5 +10,5 @@ interface Permission<U> {
      * @param user The user to check
      * @return If the user has permission to use the command.
      */
-    fun hasPermission(user: U): Boolean
+     fun hasPermission(user: U): Boolean
 }

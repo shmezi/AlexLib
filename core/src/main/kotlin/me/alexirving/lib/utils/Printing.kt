@@ -3,34 +3,21 @@ package me.alexirving.lib.utils
 import kotlin.random.Random
 
 
-fun <T> T?.print(): T? {
+fun <T : Any?> T.print(): T {
     println(this)
     return this
 }
 
 
 var c = 0
-fun <T> T?.pq(): T? {
-    this.pq(null)
-    return this
-}
+fun <T : Any?> T.pqr(): T = pq(Random.nextInt(0, 100))
+fun <T : Any?> T.pq(number: Int): T = this.pq("$number")
+fun <T : Any?> T.pq(prefix: String = "PRINTED"): T {
 
-fun <T> T?.pqr(): T? {
-    pq(Random.nextInt(0, 100))
-    return this
-}
-
-fun <T> T?.pq(number: Int): T? {
-    this.pq("$number")
-    return this
-}
-
-fun <T> T?.pq(prefix: String?): T? {
-
-    val p = (prefix ?: "PRINTED").apply { replace(this[0], this[0].uppercaseChar()) }
+    val p = (prefix).apply { replace(this[0], this[0].uppercaseChar()) }
     if (this == null) {
         println("[$p] null".color(Colors.RED))
-        return null
+        return this
     }
     when (c) {
         0 -> println("[$p] $this".color(Colors.RED))
@@ -47,4 +34,3 @@ fun <T> T?.pq(prefix: String?): T? {
         c = 0
     return this
 }
-
