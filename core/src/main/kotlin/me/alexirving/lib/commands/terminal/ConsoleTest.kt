@@ -8,13 +8,13 @@ import java.util.*
 fun main() {
     val manager = ConsoleTest()
 
-
-    manager.register(TestCMD().pq())
+    val s = TestCMD()
+    manager.register(s)
+    s.pq()
     manager.read()
 }
 
 class ConsoleTest : CommandManager<UUID, CommandInfo<UUID>, BasicPermission>() {
-
 
     fun read() {
         onNewLine(readln())

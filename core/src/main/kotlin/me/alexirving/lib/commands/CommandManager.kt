@@ -1,10 +1,9 @@
 package me.alexirving.lib.commands
 
-import me.alexirving.lib.commands.argument.Argument
 import me.alexirving.lib.commands.argument.ArgumentParser
 import me.alexirving.lib.commands.command.BaseCommand
 import me.alexirving.lib.commands.command.CommandInfo
-import me.alexirving.lib.utils.nbz
+import me.alexirving.lib.commands.command.CommandResult
 import me.alexirving.lib.utils.pq
 
 abstract class CommandManager<U, C : CommandInfo<U>, P : Permission<U>> {
@@ -15,7 +14,6 @@ abstract class CommandManager<U, C : CommandInfo<U>, P : Permission<U>> {
     fun register(command: BaseCommand<U, C, P>) {
         val f = command.builder().build()
         mappings[command.name] = f
-//        command.run(CommandInfo(UUID,"", listOf()))
         "Registed command ${f.name}!".pq()
     }
 
@@ -28,21 +26,9 @@ abstract class CommandManager<U, C : CommandInfo<U>, P : Permission<U>> {
     }
 
 
-    fun sendCommand(sender: U, cmd: String, args: List<String>) {
-        val command = mappings[cmd] ?: return
-        if (command.requiredArguments.size > args.size) return
-        val arguments = mutableListOf<Argument>()
-        for ((index, arg) in command.requiredArguments.withIndex())
-            arguments.add(Argument(arg.resolve(sender, args[index])))
-
-        for ((index, arg) in args.subList((command.requiredArguments.size - 1).nbz(), args.size - 1).withIndex()) {
-            if (index >= command.optional.size)
-                break
-            arguments.add(Argument(command.optional[index].resolve(sender, arg)))
-        }
-
-        command.runV?.invoke(CommandInfo(sender, cmd, arguments) as C)
-
+    fun sendCommand(sender: U, cmd: String, args: List<String>): CommandResult {
+        val command = mappings[cmd] ?: return CommandResult.COMMAND_NOT_FOUND
+        return command.runCommand(sender, cmd, args.drop(1))
     }
 }
 

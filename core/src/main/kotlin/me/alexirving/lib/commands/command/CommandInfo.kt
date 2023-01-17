@@ -10,6 +10,6 @@ import me.alexirving.lib.commands.argument.Argument
 open class CommandInfo<U>(
     val sender: U,
     val command: String,
-    val args: List<Argument>
+    val args: Map<String, Argument>
 )
 

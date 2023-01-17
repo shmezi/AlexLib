@@ -1,8 +1,10 @@
 package me.alexirving.lib.commands.command.builder
 
 import me.alexirving.lib.commands.Permission
+import me.alexirving.lib.commands.argument.ArgumentResolver
 import me.alexirving.lib.commands.command.BaseCommand
 import me.alexirving.lib.commands.command.CommandInfo
+import me.alexirving.lib.commands.command.CommandResult
 import me.alexirving.lib.commands.command.SubCommand
 import me.alexirving.lib.utils.pq
 
@@ -12,8 +14,7 @@ import me.alexirving.lib.utils.pq
  */
 class CommandBuilder<U, C : CommandInfo<U>, P : Permission<*>>(private var base: BaseCommand<U, C, P>) {
 
-    private val subs = mutableListOf<CommandBuilder<U, C, P>>()
-    private var action: ((sender: C) -> Unit)? = null
+
     fun build() = base
 
 
@@ -21,10 +22,14 @@ class CommandBuilder<U, C : CommandInfo<U>, P : Permission<*>>(private var base:
         this.base.name = name
     }
 
+    fun setArguments(vararg arguments: ArgumentResolver<U, *>) {
+        base.setArguments(*arguments)
+    }
 
-    fun action(action: (sender: C) -> Unit) {
+    fun action(action: C.() -> CommandResult) {
         base.runV = action
     }
+
 
     fun sub(name: String, command: CommandBuilder<U, C, P>.() -> Unit) {
         "Made a sub-command of $name".pq()
@@ -34,7 +39,7 @@ class CommandBuilder<U, C : CommandInfo<U>, P : Permission<*>>(private var base:
         //Running the context with the subCommand we just made
         command(subCommand)
         //Adding the command to the sub commands of the builder
-        subs.add(subCommand)
-
+        base.registerSub(subCommand.build())
     }
+
 }
