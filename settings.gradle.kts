@@ -1,7 +1,7 @@
 rootProject.name = "AlexLib"
 
 
-include("core","nosql","sqlite")
+include("core","database")
 
 dependencyResolutionManagement {
     repositories {
