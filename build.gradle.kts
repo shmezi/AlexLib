@@ -1,44 +1,43 @@
 plugins {
-    kotlin("jvm") version "1.7.0"
-    id("maven-publish")
+    kotlin("jvm") version "1.7.21"
     id("java-library")
+    id("maven-publish")
 }
 
+subprojects {
+    apply(plugin = "kotlin")
+    apply(plugin = "java-library")
+    apply(plugin = "maven-publish")
 
-repositories {
-    mavenCentral()
-    maven("https://jitpack.io")
-}
+    repositories {
+        mavenCentral()
+        maven("https://jitpack.io")
+    }
 
-dependencies {
-    api("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
-    api("org.litote.kmongo:kmongo:4.7.1")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    api("com.squareup.okhttp3:okhttp:5.0.0-alpha.7")
-    api("com.google.code.gson:gson:2.10.1")
-    api("com.github.JCTools:JCTools:-SNAPSHOT") // I know jitpack -SNAPSHOT is a bad idea for caching, ohwell
-    // https://mvnrepository.com/artifact/it.unimi.dsi/fastutil
-    api("it.unimi.dsi:fastutil:8.5.11")
+    dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
+        implementation("gradle.plugin.com.github.johnrengelman:shadow:7.1.2")
+    }
 
-    testImplementation(kotlin("test"))}
-
-
-
-
-tasks{
+    tasks {
+        compileKotlin {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
         test {
             useJUnitPlatform()
         }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "me.alexirving.lib"
-            artifactId = "alex-lib"
-            version = "2.0"
-
-            from(components["java"])
+        publishing {
+            publications {
+                create<MavenPublication>("maven") {
+                    from(getComponents()["java"])
+                    groupId = "me.alexirving.lib"
+                    artifactId = "alex-lib"
+                    version = "2.0"
+                }
+            }
         }
     }
 }
+
