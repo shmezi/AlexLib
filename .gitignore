@@ -1,0 +1,9 @@
+.idea
+.gradle
+# Subprojects
+utilities/build
+task/build
+event/build
+database/build
+command/build
+
