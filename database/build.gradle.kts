@@ -6,3 +6,4 @@ dependencies {
     api(project(":task"))
     api(project(":utilities"))
 }
+version  = "3.0"

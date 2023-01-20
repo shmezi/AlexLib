@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="Added MessagePlatform to allow easy creation of message platforms with a prefix">
+    <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/command/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/database/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/event/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/event/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/task/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,6 +196,7 @@
       <workItem from="1674206832556" duration="469000" />
       <workItem from="1674207319301" duration="6044000" />
       <workItem from="1674214421136" duration="5000" />
+      <workItem from="1674215973077" duration="1050000" />
     </task>
     <task id="LOCAL-00001" summary="A fully working lovely command system. Please be warned that it has not been optimized yet.">
       <created>1674210886674</created>
@@ -206,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674213660598</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary=".">
+      <created>1674216035922</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1674216035922</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,6 +228,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="A fully working lovely command system. Please be warned that it has not been optimized yet." />
     <MESSAGE value="Added MessagePlatform to allow easy creation of message platforms with a prefix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added MessagePlatform to allow easy creation of message platforms with a prefix" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>

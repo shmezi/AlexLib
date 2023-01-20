@@ -4,3 +4,4 @@ dependencies {
     api("com.github.JCTools:JCTools:-SNAPSHOT")
 
 }
+version  = "3.0"
