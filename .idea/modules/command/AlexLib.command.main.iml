@@ -4,5 +4,9 @@
     <content url="file://$MODULE_DIR$/../../../command/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../../command/src/main/kotlin" isTestSource="false" />
     </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.7.21" level="project" />
+    <orderEntry type="module" module-name="AlexLib.utilities.main" />
   </component>
 </module>

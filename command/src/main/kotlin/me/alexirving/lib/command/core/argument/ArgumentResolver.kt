@@ -15,7 +15,12 @@ abstract class ArgumentResolver<U, T>(
 ) {
 
     /**
-     * The method that will be called to resolve the argument
+     * Resolve an argument async
      */
-    abstract fun resolve(sender: U, text: String): T?
+    open fun resolve(sender: U, text: String, resolved: (resolved: T?) -> Unit) {}
+
+    /**
+     * Resolve an argument sync
+     */
+    open fun resolve(sender: U, text: String): T? = null
 }

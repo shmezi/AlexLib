@@ -15,6 +15,10 @@ class ArgumentParser<U> {
     }
 
     fun resolve(clazz: Class<*>, sender: U, text: String) = mapping[clazz]?.resolve(sender, text)
-
+    fun resolveAsync(clazz: Class<*>, sender: U, text: String, resolved: (resolved:Any?) -> Unit){
+        mapping[clazz]?.resolve(sender, text){
+            resolved(it)
+        }
+    }
 
 }

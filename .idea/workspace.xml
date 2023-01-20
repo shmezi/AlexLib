@@ -4,7 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="" />
+    <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/AlexLib.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/command/AlexLib.command.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/command/AlexLib.command.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/command/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/CommandManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/Argument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/Argument.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentParser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentResolver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/ArgumentInteger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/ArgumentInteger.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/CommandResult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/CommandResult.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/ConsoleTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/ConsoleTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/TestCMD.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/TestCMD.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities/src/main/kotlin/me/alexirving/lib/util/Printing.kt" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/src/main/kotlin/me/alexirving/lib/util/Printing.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,30 +55,15 @@
         <task path="$PROJECT_DIR$/database">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="AlexLib" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="AlexLib" type="f1a62948:ProjectNode" />
-                <item name="database" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="AlexLib" type="f1a62948:ProjectNode" />
-                <item name="database" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="AlexLib" type="f1a62948:ProjectNode" />
-                <item name="database" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -61,6 +80,9 @@
       </list>
     </option>
   </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="jn71wngv" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -70,20 +92,21 @@
     <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/tofik/OneDrive/Документы/GitHub/AlexLib/command",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tofik/OneDrive/Документы/GitHub/AlexLib/command&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tofik\OneDrive\Документы\GitHub\AlexLib\command" />
@@ -91,6 +114,69 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\tofik\OneDrive\Документы\GitHub\AlexLib\command\src\main\kotlin\me\alexirving\lib\command\core\content" />
     </key>
+  </component>
+  <component name="RunManager" selected="Kotlin.ConsoleTestKt (1)">
+    <configuration name="AlexLib [publishToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="publishToMavenLocal" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="ConsoleTestKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="me.alexirving.lib.command.terminal.ConsoleTestKt" />
+      <module name="IdeaProjects.AlexLib.command.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConsoleTestKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="liberica-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="me.alexirving.lib.command.terminal.ConsoleTestKt" />
+      <module name="AlexLib.command.main" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LauncherKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="me.alexirving.lib.command.terminal.LauncherKt" />
+      <module name="AlexLib.command.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="build.gradle.kts" type="KotlinStandaloneScriptRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <module name="AlexLib" />
+      <option name="filePath" value="$PROJECT_DIR$/command/build.gradle.kts" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.ConsoleTestKt (1)" />
+        <item itemvalue="Kotlin.ConsoleTestKt" />
+        <item itemvalue="Kotlin.LauncherKt" />
+        <item itemvalue="Gradle.AlexLib [publishToMavenLocal]" />
+        <item itemvalue="Kotlin script (Beta).build.gradle.kts" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -101,6 +187,10 @@
       <option name="presentableId" value="Default" />
       <updated>1674145375188</updated>
       <workItem from="1674145376423" duration="971000" />
+      <workItem from="1674163929503" duration="6554000" />
+      <workItem from="1674206406908" duration="192000" />
+      <workItem from="1674206832556" duration="469000" />
+      <workItem from="1674207319301" duration="2886000" />
     </task>
     <servers />
   </component>

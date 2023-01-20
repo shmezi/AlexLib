@@ -1,6 +1,7 @@
 package me.alexirving.lib.command.core.content
 
 import me.alexirving.lib.command.core.Permission
+import me.alexirving.lib.command.core.Platform
 import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.argument.ArgumentResolver
 import me.alexirving.lib.command.core.content.builder.Context
@@ -22,17 +23,9 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
 ) {
     private var requiredArguments = arguments.filter { it.required }
     private var optionalArguments = arguments.filter { !it.required }
-    private var messages = mutableMapOf<CommandResult, String?>()
+
     private val subs = mutableMapOf<String, BaseCommand<U, C, P>>()
     var action: ((context: C) -> CommandResult)? = null
-
-
-    /**
-     * Messages the sender with a result message.
-     */
-    open fun sendMessage(info: C, message: CommandResult) {
-        info.message(messages[message] ?: message.default ?: return)
-    }
 
 
     /**
@@ -56,6 +49,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
         this.permission = permission
     }
 
+
     fun hasPermission(user: U) = permission?.hasPermission(user) ?: true
 
     fun registerSub(command: BaseCommand<U, C, P>) {
@@ -74,24 +68,17 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
     abstract fun builder(): Context<U, C, P>
 
 
-    /**
-     * The reason this method is abstract is due to the fact that we need to create an instance of the generic.
-     */
-    abstract fun getCommandInfo(sender: U, cmd: String, arguments: Map<String, Argument>): C
-
-
     private val emptyArgs = mapOf<String, Argument>()
 
     /**
      * Logic behind running of a command
      */
-    fun runCommand(sender: U, cmd: String, args: List<String>): CommandResult {
-        var result: CommandResult
+    fun runCommand(platform: Platform<U, C, P>, sender: U, cmd: String, args: List<String>): CommandResult {
         fun r(): CommandResult {
             if (!hasPermission(sender)) return CommandResult.NO_PERMISSION
             val arguments = mutableMapOf<String, Argument>()
             for ((index, arg) in requiredArguments.withIndex())
-                arguments[arg.name] = Argument(arg.resolve(sender, args[index]))
+                arguments[arg.name] = Argument(arg.resolve(sender, args[index])?:return CommandResult.WRONG_ARG_TYPE)
 
             for ((index, arg) in args.drop(0).withIndex()) {
                 if (index >= optionalArguments.size)
@@ -101,15 +88,15 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
                 arguments[resolver.name] = Argument(resolver.resolve(sender, arg))
             }
 
-            return action?.invoke(getCommandInfo(sender, cmd, arguments)) ?: CommandResult.NO_ACTION_SET
+            return action?.invoke(platform.getInfo(sender, cmd, arguments)) ?: CommandResult.NO_ACTION_SET
         }
 
         if (requiredArguments.size > args.size) return CommandResult.NOT_ENOUGH_ARGS
 
-        result = if (args.isEmpty()) r() else
-            subIfExists(args[0])?.runCommand(sender, args[0], args.drop(1)) ?: r()
+        return if (args.isEmpty()) r() else
+            subIfExists(args[0])?.runCommand(platform, sender, args[0], args.drop(1)) ?: r()
 
-        return result
+
     }
 
 

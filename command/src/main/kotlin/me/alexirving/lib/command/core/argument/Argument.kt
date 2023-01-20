@@ -6,4 +6,7 @@ class Argument(
 
     fun asInt() = raw as Int
     fun asString() = raw as String
+    fun <T> asType() {
+        raw as T?
+    }
 }

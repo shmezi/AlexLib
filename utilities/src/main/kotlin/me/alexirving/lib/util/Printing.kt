@@ -11,10 +11,9 @@ fun <T : Any?> T.print(): T {
 
 var c = 0
 fun <T : Any?> T.pqr(): T = pq(Random.nextInt(0, 100))
-fun <T : Any?> T.pq(number: Int): T = this.pq("$number")
-fun <T : Any?> T.pq(prefix: String = "PRINTED"): T {
+fun <T : Any?> T.pq(prefix: Any = "PRINTED"): T {
 
-    val p = (prefix).apply { replace(this[0], this[0].uppercaseChar()) }
+    val p = (prefix.toString()).apply { replace(this[0], this[0].uppercaseChar()) }
     if (this == null) {
         println("[$p] null".color(Colors.RED))
         return this

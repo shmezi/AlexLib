@@ -1,9 +1,11 @@
 plugins {
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "1.8.0"
     id("java-library")
     id("maven-publish")
 }
-
+repositories {
+    mavenCentral()
+}
 subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "java-library")
@@ -11,6 +13,7 @@ subprojects {
 
     repositories {
         mavenCentral()
+        gradlePluginPortal()
         maven("https://jitpack.io")
     }
 
@@ -22,7 +25,7 @@ subprojects {
     tasks {
         compileKotlin {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
         }
         test {
