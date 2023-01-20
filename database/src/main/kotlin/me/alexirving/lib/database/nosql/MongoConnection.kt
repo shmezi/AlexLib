@@ -25,7 +25,7 @@ data class MongoConnection(private val client: MongoClient, private val name: St
             MongoClientSettings.builder().uuidRepresentation(UuidRepresentation.STANDARD)
                 .applyConnectionString(ConnectionString(connection))
 
-                .build().apply { uuidRepresentation.pq("t") }
+                .build().apply { uuidRepresentation}
         ), name
 
     )
