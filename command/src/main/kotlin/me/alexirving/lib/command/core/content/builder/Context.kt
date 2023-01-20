@@ -5,10 +5,13 @@ import me.alexirving.lib.command.core.content.BaseCommand
 import me.alexirving.lib.command.core.content.CommandInfo
 
 
+
 class Context<U, C : CommandInfo<U>, P : Permission<U>>(
     private val base: BaseCommand<U, C, P>,
     val command: CommandBuilder<U, C, P>.() -> Unit
-) {
+)
+
+{
 
 
     fun build(): BaseCommand<U, C, P> {

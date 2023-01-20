@@ -1,10 +1,10 @@
 package me.alexirving.lib.command.terminal
 
 
-import me.alexirving.lib.command.core.Platform
+import me.alexirving.lib.command.core.NotRequired
+import me.alexirving.lib.command.core.MessagePlatform
 import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.content.CommandInfo
-import me.alexirving.lib.command.core.content.CommandResult
 import me.alexirving.lib.util.pq
 import java.util.*
 
@@ -16,7 +16,7 @@ fun main() {
     manager.read()
 }
 
-class ConsoleTest : Platform<UUID, CommandInfo<UUID>, BasicPermission>() {
+class ConsoleTest : MessagePlatform<UUID, CommandInfo<UUID>, NotRequired<UUID>>("!") {
 
     fun read() {
         onNewLine(readln())
@@ -24,14 +24,13 @@ class ConsoleTest : Platform<UUID, CommandInfo<UUID>, BasicPermission>() {
     }
 
     private fun onNewLine(line: String) {
-        val args = line.split(" ")
-        sendCommand(UUID.randomUUID(), args[0], args.drop(0),true)
+        onMessage(UUID.randomUUID(), line, true)
     }
 
     override fun getInfo(sender: UUID, cmd: String, arguments: Map<String, Argument>) =
         CommandInfo(sender, cmd, arguments)
 
     override fun sendMessage(sender: UUID, message: String) {
-       message.pq(sender)
+        message.pq(sender)
     }
 }
