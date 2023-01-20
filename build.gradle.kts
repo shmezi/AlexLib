@@ -35,12 +35,12 @@ subprojects {
             publications {
                 create<MavenPublication>("maven") {
                     from(getComponents()["java"])
-                    groupId = "me.alexirving.lib"
-                    artifactId = "alex-lib"
-                    version = "3.0"
+                    groupId = project.group.toString()
+                    artifactId = project.name
+                    version = project.version.toString()
                 }
             }
         }
     }
 }
-version  = "3.0"
+version = "3.0"
