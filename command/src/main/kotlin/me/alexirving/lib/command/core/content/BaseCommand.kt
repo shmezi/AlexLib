@@ -3,7 +3,7 @@ package me.alexirving.lib.command.core.content
 import me.alexirving.lib.command.core.Permission
 import me.alexirving.lib.command.core.Platform
 import me.alexirving.lib.command.core.argument.Argument
-import me.alexirving.lib.command.core.argument.ArgumentResolver
+import me.alexirving.lib.command.core.argument.CommandArgument
 import me.alexirving.lib.command.core.content.builder.Context
 
 
@@ -16,22 +16,24 @@ import me.alexirving.lib.command.core.content.builder.Context
  * @param permission The permission to use for the command
  * @param arguments The list of arguments for the command ( Types, used to resolve the arguments later. )
  */
-abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
+abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argument>(
     var name: String,
-    private var permission: P?,
-    vararg arguments: ArgumentResolver<U, *>,
+    var description: String = "",
+    private
+    var permission: P?,
+    vararg arguments: CommandArgument,
 ) {
     private var requiredArguments = arguments.filter { it.required }
     private var optionalArguments = arguments.filter { !it.required }
 
-    private val subs = mutableMapOf<String, BaseCommand<U, C, P>>()
+    private val subs = mutableMapOf<String, BaseCommand<U, C, P, A>>()
     var action: ((context: C) -> CommandResult)? = null
 
 
     /**
      * Get a sub-command by name if it exists
      */
-    private fun subIfExists(name: String): BaseCommand<U, C, P>? {
+    private fun subIfExists(name: String): BaseCommand<U, C, P, A>? {
         return if (subs.isNotEmpty())
             subs[name]
         else
@@ -39,7 +41,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
 
     }
 
-    fun setArguments(vararg arguments: ArgumentResolver<U, *>) {
+    fun setArguments(vararg arguments: CommandArgument) {
         requiredArguments = arguments.filter { it.required }
         optionalArguments = arguments.filter { !it.required }
 
@@ -52,7 +54,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
 
     fun hasPermission(user: U) = permission?.hasPermission(user) ?: true
 
-    fun registerSub(command: BaseCommand<U, C, P>) {
+    fun registerSub(command: BaseCommand<U, C, P, A>) {
         subs[command.name] = command
     }
 
@@ -65,7 +67,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
      * }
      * ```
      */
-    abstract fun builder(): Context<U, C, P>
+    abstract fun builder(): Context<U, C, P, A>
 
 
     private val emptyArgs = mapOf<String, Argument>()
@@ -73,38 +75,59 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
     /**
      * Logic behind running of a command
      */
-    fun runCommand(platform: Platform<U, C, P>, sender: U, cmd: String, args: List<String>): CommandResult {
-        fun r(): CommandResult {
-            if (!hasPermission(sender)) return CommandResult.NO_PERMISSION
-            val arguments = mutableMapOf<String, Argument>()
-            for ((index, arg) in requiredArguments.withIndex())
-                arguments[arg.name] = Argument(arg.resolve(sender, args[index])?:return CommandResult.WRONG_ARG_TYPE)
+    fun runCommand(
+        platform: Platform<U, C, P, A>,
+        sender: U,
+        cmd: String,
+        args: List<String>,
+        result: (result: CommandResult) -> Unit
+    ) {
 
-            for ((index, arg) in args.drop(0).withIndex()) {
+        fun runner(): CommandResult {
+            if (!hasPermission(sender)) return CommandResult.NO_PERMISSION
+
+            val arguments = mutableMapOf<String, A>()
+            for ((index, arg) in requiredArguments.withIndex()) {
+                if (!platform.resolver.resolve(arg.clazz, sender, args[index]) {
+                        arguments[arg.name] = platform.getArgument(it)
+                    }) {
+                    return CommandResult.WRONG_ARG_TYPE
+                }
+            }
+
+            for ((index, arg) in args.withIndex()) {
                 if (index >= optionalArguments.size)
                     break
-                val resolver = optionalArguments[index]
 
-                arguments[resolver.name] = Argument(resolver.resolve(sender, arg))
+                val r = optionalArguments[index]
+                platform.resolver.resolve(r.clazz, sender, arg) {
+                    arguments[r.name] = platform.getArgument(it)
+                }
             }
 
             return action?.invoke(platform.getInfo(sender, cmd, arguments)) ?: CommandResult.NO_ACTION_SET
         }
 
-        if (requiredArguments.size > args.size) return CommandResult.NOT_ENOUGH_ARGS
+        if (requiredArguments.size > args.size) {
+            result(CommandResult.NOT_ENOUGH_ARGS)
+            return
 
-        return if (args.isEmpty()) r() else
-            subIfExists(args[0])?.runCommand(platform, sender, args[0], args.drop(1)) ?: r()
+        }
+
+        if (args.isEmpty()) result(runner()) else
+            subIfExists(args[0])?.runCommand(platform, sender, args[0], args.drop(1)) {
+                result(it)
+            } ?: result(runner())
 
 
     }
 
 
-    override fun toString() =
+    override fun toString(): String =
         """
-        Command: $name
-        Permissions: $permission
-        SubCommands:
-        ${subs.map { it.key }.map { "  - $it\n" }.toString().removePrefix("[").removeSuffix("]")}
-        """.trimIndent()
+    Command: $name
+    Permissions: $permission
+    SubCommands:
+    ${subs.map { it }.map { "  - ${it.key}${it.value}" }.toString().removePrefix("[").removeSuffix("]")}
+"""
 }

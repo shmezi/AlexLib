@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/command/AlexLib.command.main.iml" filepath="$PROJECT_DIR$/.idea/modules/command/AlexLib.command.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/database/AlexLib.database.main.iml" filepath="$PROJECT_DIR$/.idea/modules/database/AlexLib.database.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AlexLib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/AlexLib.main.iml" />
     </modules>
   </component>

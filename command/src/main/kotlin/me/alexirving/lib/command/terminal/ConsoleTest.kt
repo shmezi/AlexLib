@@ -1,36 +1,41 @@
 package me.alexirving.lib.command.terminal
 
 
-import me.alexirving.lib.command.core.NotRequired
 import me.alexirving.lib.command.core.MessagePlatform
+import me.alexirving.lib.command.core.NotRequired
 import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.content.CommandInfo
 import me.alexirving.lib.util.pq
 import java.util.*
 
+val a: UUID = UUID.randomUUID()
 fun main() {
     val manager = ConsoleTest()
     val s = TestCMD()
     manager.register(s)
     s.pq()
     manager.read()
+
 }
 
-class ConsoleTest : MessagePlatform<UUID, CommandInfo<UUID>, NotRequired<UUID>>("!") {
+class ConsoleTest : MessagePlatform<UUID, CommandInfo<UUID>, NotRequired<UUID>, Argument>("!") {
 
     fun read() {
         onNewLine(readln())
         read()
     }
 
+
     private fun onNewLine(line: String) {
-        onMessage(UUID.randomUUID(), line, true)
+        onMessage(a, line, true){}
     }
 
-    override fun getInfo(sender: UUID, cmd: String, arguments: Map<String, Argument>) =
+    override fun getInfo(sender: UUID, cmd: String, arguments: MutableMap<String, Argument>): CommandInfo<UUID> =
         CommandInfo(sender, cmd, arguments)
 
-    override fun sendMessage(sender: UUID, message: String) {
+    override fun <M> sendMessage(sender: UUID, message: M, ephemeral: Boolean) {
         message.pq(sender)
     }
+
+    override fun getArgument(raw: Any): Argument = Argument(raw)
 }

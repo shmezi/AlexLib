@@ -8,20 +8,20 @@ import me.alexirving.lib.command.core.content.CommandInfo
 import me.alexirving.lib.command.core.content.CommandResult
 import me.alexirving.lib.util.pq
 
-abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>> {
+abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>, A : Argument> {
 
-    private val mappings = mutableMapOf<String, BaseCommand<U, C, P>>()
-    private val resolver = ArgumentParser<U>()
+    private val mappings = mutableMapOf<String, BaseCommand<U, C, P, A>>()
+    val resolver = ArgumentParser<U>()
     private var messages = mutableMapOf<CommandResult, String>()
 
 
-    fun register(command: BaseCommand<U, C, P>) {
+    open fun register(command: BaseCommand<U, C, P, A>) {
         val f = command.builder().build()
         mappings[command.name] = f
-        "Registed command ${f.name}!".pq()
+        "Registered command: ${f.name}.".pq()
     }
 
-    fun unregister(command: String) {
+    open fun unregister(command: String) {
         mappings.remove(command)
     }
 
@@ -33,25 +33,32 @@ abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>> {
         messages = map
     }
 
-    fun getMessage(message: CommandResult) = messages[message] ?: message.default
+    private fun getMessage(message: CommandResult) = messages[message] ?: message.default
 
-    abstract fun getInfo(sender: U, cmd: String, arguments: Map<String, Argument>): C
-
-    abstract fun sendMessage(sender: U, message: String)
-    fun unregister(command: BaseCommand<U, C, P>) {
+    abstract fun getInfo(sender: U, cmd: String, arguments: MutableMap<String, A>): C
+    abstract fun getArgument(raw: Any): A
+    protected abstract fun <M> sendMessage(sender: U, message: M, ephemeral: Boolean = true)
+    protected fun unregister(command: BaseCommand<U, C, P, A>) {
         mappings.remove(command.name)
     }
 
 
-    fun sendCommand(sender: U, cmd: String, args: List<String>, message: Boolean = true): CommandResult {
+    protected fun sendCommand(
+        sender: U,
+        cmd: String,
+        args: List<String>,
+        message: Boolean = true,
+        result: (result: CommandResult) -> Unit
+    ) {
 
         val command = mappings[cmd]
-        val result = command?.runCommand(this, sender, cmd, args.drop(1)) ?: CommandResult.COMMAND_NOT_FOUND
-        if (message)
-            sendMessage(sender, getMessage(result))
-        return result
-    }
 
-    fun sendCommand(sender: U, cmd: String, args: List<String>): CommandResult =
-        mappings[cmd]?.runCommand(this, sender, cmd, args.drop(1)) ?: CommandResult.COMMAND_NOT_FOUND
+        command?.runCommand(this, sender, cmd, args) {
+            if (message && !it.success)
+                sendMessage(sender, getMessage(it))
+            result(it)
+        } ?: result(CommandResult.COMMAND_NOT_FOUND)
+
+
+    }
 }

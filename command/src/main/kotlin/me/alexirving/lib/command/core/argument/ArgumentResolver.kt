@@ -8,19 +8,13 @@ package me.alexirving.lib.command.core.argument
  * @param clazz The class to resolve
  * @param required If the argument is required
  */
-abstract class ArgumentResolver<U, T>(
-    val name: String,
+abstract class ArgumentResolver<U, T:Any>(
     val clazz: Class<*>,
-    val required: Boolean = true,
 ) {
 
     /**
      * Resolve an argument async
      */
-    open fun resolve(sender: U, text: String, resolved: (resolved: T?) -> Unit) {}
+    abstract fun resolve(sender: U, text: String, resolved: (resolved: T) -> Unit): Boolean
 
-    /**
-     * Resolve an argument sync
-     */
-    open fun resolve(sender: U, text: String): T? = null
 }
