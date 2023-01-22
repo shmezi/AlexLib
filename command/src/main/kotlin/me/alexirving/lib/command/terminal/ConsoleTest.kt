@@ -18,7 +18,7 @@ fun main() {
 
 }
 
-class ConsoleTest : MessagePlatform<UUID, CommandInfo<UUID>, NotRequired<UUID>, Argument>("!") {
+class ConsoleTest : MessagePlatform<UUID, CommandInfo<UUID>, NotRequired<UUID>>("!") {
 
     fun read() {
         onNewLine(readln())
@@ -36,6 +36,4 @@ class ConsoleTest : MessagePlatform<UUID, CommandInfo<UUID>, NotRequired<UUID>, 
     override fun <M> sendMessage(sender: UUID, message: M, ephemeral: Boolean) {
         message.pq(sender)
     }
-
-    override fun getArgument(raw: Any): Argument = Argument(raw)
 }

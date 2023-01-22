@@ -16,7 +16,7 @@ import me.alexirving.lib.command.core.content.builder.Context
  * @param permission The permission to use for the command
  * @param arguments The list of arguments for the command ( Types, used to resolve the arguments later. )
  */
-abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argument>(
+abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
     var name: String
 ) {
     var description: String? = null
@@ -27,14 +27,14 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argumen
     private var requiredArguments = arguments.filter { it.required }
     private var optionalArguments = arguments.filter { !it.required }
 
-    private val subs = mutableMapOf<String, BaseCommand<U, C, P, A>>()
+    private val subs = mutableMapOf<String, BaseCommand<U, C, P>>()
     var action: ((context: C) -> CommandResult)? = null
 
 
     /**
      * Get a sub-command by name if it exists
      */
-    private fun subIfExists(name: String): BaseCommand<U, C, P, A>? {
+    private fun subIfExists(name: String): BaseCommand<U, C, P>? {
         return if (subs.isNotEmpty())
             subs[name]
         else
@@ -51,7 +51,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argumen
 
     fun hasPermission(user: U) = permission?.hasPermission(user) ?: true
 
-    fun registerSub(command: BaseCommand<U, C, P, A>) {
+    fun registerSub(command: BaseCommand<U, C, P>) {
         subs[command.name] = command
     }
 
@@ -64,7 +64,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argumen
      * }
      * ```
      */
-    abstract fun builder(): Context<U, C, P, A>
+    abstract fun builder(): Context<U, C, P>
 
 
     private val emptyArgs = mapOf<String, Argument>()
@@ -73,7 +73,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argumen
      * Logic behind running of a command
      */
     fun runCommand(
-        platform: Platform<U, C, P, A>,
+        platform: Platform<U, C, P>,
         sender: U,
         cmd: String,
         args: List<String>,
@@ -83,7 +83,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argumen
         fun runner(): CommandResult {
             if (!hasPermission(sender)) return CommandResult.NO_PERMISSION
 
-            val arguments = mutableMapOf<String, A>()
+            val arguments = mutableMapOf<String, Argument>()
             for ((index, arg) in requiredArguments.withIndex()) {
                 if (!platform.resolver.resolve(arg.clazz, sender, args[index]) {
                         arguments[arg.name] = platform.getArgument(it)
