@@ -5,17 +5,18 @@ import me.alexirving.lib.command.core.MessagePlatform
 import me.alexirving.lib.command.core.NotRequired
 import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.content.CommandInfo
+import me.alexirving.lib.command.jda.testenv.TestEnv
 import me.alexirving.lib.util.pq
 import java.util.*
 
 val a: UUID = UUID.randomUUID()
 fun main() {
-    val manager = ConsoleTest()
-    val s = TestCMD()
-    manager.register(s)
-    s.pq()
-    manager.read()
-
+//    val manager = ConsoleTest()
+//    val s = AwesomeCMD()
+//    manager.register(s)
+//    s.pq()
+//    manager.read()
+    TestEnv()
 }
 
 class ConsoleTest : MessagePlatform<UUID, CommandInfo<UUID>, NotRequired<UUID>>("!") {
@@ -27,7 +28,7 @@ class ConsoleTest : MessagePlatform<UUID, CommandInfo<UUID>, NotRequired<UUID>>(
 
 
     private fun onNewLine(line: String) {
-        onMessage(a, line, true){}
+        onMessage(a, line, true) {}
     }
 
     override fun getInfo(sender: UUID, cmd: String, arguments: MutableMap<String, Argument>): CommandInfo<UUID> =

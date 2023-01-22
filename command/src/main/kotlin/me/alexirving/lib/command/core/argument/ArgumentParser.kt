@@ -8,7 +8,7 @@ class ArgumentParser<U> {
     private val mapping = mutableMapOf<Class<*>, ArgumentResolver<U, *>>()
 
     init {
-        register(IntResolver(), UUIDResolver(),StringResolver())
+        register(IntResolver(), UUIDResolver(), StringResolver())
     }
 
     /**
@@ -30,10 +30,16 @@ class ArgumentParser<U> {
         }
     }
 
-    fun resolve(clazz: Class<*>, sender: U, text: String, resolved: (resolved: Any) -> Unit): Boolean {
-        return mapping[clazz]?.resolve(sender, text) {
-            resolved(it)
-        } ?: throw NotImplementedError("No resolver was registered for type of ${clazz.typeName}")
+    fun resolve(clazz: Class<*>, sender: U, text: Any, resolved: (resolved: Any) -> Unit): Boolean {
+        val arg =
+            mapping[clazz] ?: throw NotImplementedError("No resolver was registered for type of ${clazz.typeName}")
+
+        return if (arg.predefined)
+            arg.resolvePreDefined(text) { resolved(it) }
+        else
+            arg.resolve(sender, text as String) {
+                resolved(it)
+            }
     }
 
 }

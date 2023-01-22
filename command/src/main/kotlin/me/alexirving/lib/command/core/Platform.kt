@@ -10,14 +10,14 @@ import me.alexirving.lib.util.pq
 
 abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>> {
 
-    private val mappings = mutableMapOf<String, BaseCommand<U, C, P>>()
+    protected val mappings = mutableMapOf<String, BaseCommand<U, C, P>>()
     val resolver = ArgumentParser<U>()
     private var messages = mutableMapOf<CommandResult, String>()
 
 
     open fun register(command: BaseCommand<U, C, P>) {
         val f = command.builder().build(command)
-        mappings[command.name] = f
+        mappings[command.name.lowercase()] = f
         "Registered command: ${f.name}.".pq()
     }
 
@@ -42,10 +42,10 @@ abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>> {
     }
 
 
-    protected fun sendCommand(
+    protected open fun sendCommand(
         sender: U,
         cmd: String,
-        args: List<String>,
+        args: List<Any>,
         message: Boolean = true,
         result: (result: CommandResult) -> Unit
     ) {

@@ -13,21 +13,26 @@ import me.alexirving.lib.command.core.content.builder.Context
  * @param C The context type for the command ( Could just be [CommandInfo] )
  * @param P The permission implementation used.
  * @param name Name of the command
- * @param permission The permission to use for the command
- * @param arguments The list of arguments for the command ( Types, used to resolve the arguments later. )
  */
 abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
-    var name: String
+    name: String
 ) {
+    var name = name.lowercase()
+        set(value) {
+            field = value.lowercase()
+        }
+
     var description: String? = null
+
     var permission: P? = null
     private var arguments = mutableListOf<CommandArgument>()
 
 
-    private var requiredArguments = arguments.filter { it.required }
-    private var optionalArguments = arguments.filter { !it.required }
-
-    private val subs = mutableMapOf<String, BaseCommand<U, C, P>>()
+    var requiredArguments = arguments.filter { it.required }
+        private set
+    var optionalArguments = arguments.filter { !it.required }
+        private set
+    val subs = mutableMapOf<String, BaseCommand<U, C, P>>()
     var action: ((context: C) -> CommandResult)? = null
 
 
@@ -76,7 +81,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
         platform: Platform<U, C, P>,
         sender: U,
         cmd: String,
-        args: List<String>,
+        args: List<Any>,
         result: (result: CommandResult) -> Unit
     ) {
 
@@ -86,7 +91,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
             val arguments = mutableMapOf<String, Argument>()
             for ((index, arg) in requiredArguments.withIndex()) {
                 if (!platform.resolver.resolve(arg.clazz, sender, args[index]) {
-                        arguments[arg.name] = platform.getArgument(it)
+                        arguments[arg.name] = Argument(it)
                     }) {
                     return CommandResult.WRONG_ARG_TYPE
                 }
@@ -98,7 +103,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
 
                 val r = optionalArguments[index]
                 platform.resolver.resolve(r.clazz, sender, arg) {
-                    arguments[r.name] = platform.getArgument(it)
+                    arguments[r.name] = Argument(it)
                 }
             }
 
@@ -111,10 +116,14 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
 
         }
 
-        if (args.isEmpty()) result(runner()) else
-            subIfExists(args[0])?.runCommand(platform, sender, args[0], args.drop(1)) {
-                result(it)
-            } ?: result(runner())
+        if (args.isEmpty()) result(runner()) else {
+            val arg = args[0]
+            if (arg is String)
+                subIfExists(arg)?.runCommand(platform, sender, arg, args.drop(1)) {
+                    result(it)
+                } ?: result(runner())
+            else result(runner())
+        }
 
 
     }
