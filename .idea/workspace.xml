@@ -4,43 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="Small fix">
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/CommandArgument.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/IntResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/StringResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/UUIDResolver.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAArgument.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAPermission.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAPlatform.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDASender.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/TestEnv.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/src/main/resources/logback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" afterDir="false" />
+    <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="Arguments are now actually parsed properly.&#10;The entire command system is async :)&#10;Started work on JDA Impl of command Framework">
       <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/command/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/MessagePlatform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/MessagePlatform.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/Argument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/Argument.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentParser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/ArgumentInteger.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/Context.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/Context.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/ConsoleTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/ConsoleTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/TestCMD.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/TestCMD.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/database/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -402,7 +377,7 @@
       <workItem from="1674227956205" duration="146000" />
       <workItem from="1674228799827" duration="1907000" />
       <workItem from="1674293994853" duration="440000" />
-      <workItem from="1674317913932" duration="14623000" />
+      <workItem from="1674317913932" duration="16637000" />
     </task>
     <task id="LOCAL-00001" summary="A fully working lovely command system. Please be warned that it has not been optimized yet.">
       <created>1674210886674</created>
@@ -439,7 +414,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674227557836</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Arguments are now actually parsed properly.&#10;The entire command system is async :)&#10;Started work on JDA Impl of command Framework">
+      <created>1674336055367</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674336055367</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -450,7 +432,8 @@
     <MESSAGE value="Added MessagePlatform to allow easy creation of message platforms with a prefix" />
     <MESSAGE value="." />
     <MESSAGE value="Small fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Small fix" />
+    <MESSAGE value="Arguments are now actually parsed properly.&#10;The entire command system is async :)&#10;Started work on JDA Impl of command Framework" />
+    <option name="LAST_COMMIT_MESSAGE" value="Arguments are now actually parsed properly.&#10;The entire command system is async :)&#10;Started work on JDA Impl of command Framework" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

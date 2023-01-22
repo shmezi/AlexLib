@@ -16,7 +16,7 @@ abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>, A : Argument> 
 
 
     open fun register(command: BaseCommand<U, C, P, A>) {
-        val f = command.builder().build()
+        val f = command.builder().build(command)
         mappings[command.name] = f
         "Registered command: ${f.name}.".pq()
     }

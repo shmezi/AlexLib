@@ -32,13 +32,15 @@ class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>, A : Argument>(pri
     }
 
 
-    fun permission(permission: P) = base.setPermission(permission)
+    fun permission(permission: P) {
+        base.permission = permission
+    }
 
 
     fun sub(name: String, command: CommandBuilder<U, C, P, A>.() -> Unit) {
         "Made a sub-command of $name".pq()
         //Making a new commandBuilder for the sub command
-        val subCommand = CommandBuilder<U, C, P, A>(SubCommand(name, "", null))
+        val subCommand = CommandBuilder<U, C, P, A>(SubCommand(name))
         //Running the context with the subCommand we just made
         command(subCommand)
         //Adding the command to the sub commands of the builder

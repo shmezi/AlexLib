@@ -1,13 +1,14 @@
 package me.alexirving.lib.command.core.argument
 
 import me.alexirving.lib.command.core.argument.internal.IntResolver
+import me.alexirving.lib.command.core.argument.internal.StringResolver
 import me.alexirving.lib.command.core.argument.internal.UUIDResolver
 
 class ArgumentParser<U> {
     private val mapping = mutableMapOf<Class<*>, ArgumentResolver<U, *>>()
 
     init {
-        register(IntResolver(), UUIDResolver())
+        register(IntResolver(), UUIDResolver(),StringResolver())
     }
 
     /**

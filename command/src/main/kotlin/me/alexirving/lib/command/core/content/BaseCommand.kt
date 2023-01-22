@@ -17,12 +17,13 @@ import me.alexirving.lib.command.core.content.builder.Context
  * @param arguments The list of arguments for the command ( Types, used to resolve the arguments later. )
  */
 abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argument>(
-    var name: String,
-    var description: String = "",
-    private
-    var permission: P?,
-    vararg arguments: CommandArgument,
+    var name: String
 ) {
+    var description: String? = null
+    var permission: P? = null
+    private var arguments = mutableListOf<CommandArgument>()
+
+
     private var requiredArguments = arguments.filter { it.required }
     private var optionalArguments = arguments.filter { !it.required }
 
@@ -45,10 +46,6 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, A : Argumen
         requiredArguments = arguments.filter { it.required }
         optionalArguments = arguments.filter { !it.required }
 
-    }
-
-    fun setPermission(permission: P) {
-        this.permission = permission
     }
 
 
