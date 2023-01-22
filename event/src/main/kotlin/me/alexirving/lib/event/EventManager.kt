@@ -1,5 +1,6 @@
 package me.alexirving.lib.event
 
+import me.alexirving.lib.event.annotation.Subscribe
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.SynchronousQueue
 import java.util.concurrent.ThreadPoolExecutor
@@ -55,6 +56,29 @@ abstract class EventManager(val async: Boolean = true) {
     fun unregisterAll() {
         eventListeners.clear()
     }
+
+    /**
+     * Registers an Object as an [EventListener] for all methods annotated with [Subscribe].
+     */
+    fun registerObject(obj: Any) {
+        val methods = obj.javaClass.methods.filter {
+            it.isAnnotationPresent(Subscribe::class.java)
+        }
+        methods.forEach { method ->
+            val params = method.parameterTypes
+            if (params.size != 1) {
+                throw IllegalArgumentException("Method ${method.name} has ${params.size} parameters, but only 1 is allowed.")
+            }
+            val param = params[0]
+            if (!Event::class.java.isAssignableFrom(param)) {
+                throw IllegalArgumentException("Method ${method.name} has a parameter that is not an Event.")
+            }
+            @Suppress("UNCHECKED_CAST")
+            addListener(param as Class<Event>, EventConsumer.invoke { method.invoke(obj, it) })
+        }
+    }
+
+
 
     /**
      * Calls an [Event] and dispatches it to all registered [EventConsumer]s.
