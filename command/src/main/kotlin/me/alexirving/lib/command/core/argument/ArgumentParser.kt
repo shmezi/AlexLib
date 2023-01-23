@@ -30,11 +30,17 @@ class ArgumentParser<U> {
         }
     }
 
-    fun resolve(clazz: Class<*>, sender: U, text: Any, resolved: (resolved: Any) -> Unit): Boolean {
+    fun resolve(
+        clazz: Class<*>,
+        pre: Boolean,
+        sender: U,
+        text: Any,
+        resolved: (resolved: Any) -> Unit
+    ): Boolean {
         val arg =
             mapping[clazz] ?: throw NotImplementedError("No resolver was registered for type of ${clazz.typeName}")
 
-        return if (arg.predefined)
+        return if (pre)
             arg.resolvePreDefined(text) { resolved(it) }
         else
             arg.resolve(sender, text as String) {

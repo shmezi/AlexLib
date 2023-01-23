@@ -14,5 +14,7 @@ class StringResolver<U> :
 
 }
 
-class StringArgument(name: String, description: String = "", required: Boolean = true) :
-    CommandArgument(name, description, required, String::class.java)
+class StringArgument(name: String, description: String = "No argument has been provided!", required: Boolean = true,
+                     predefined: Boolean = false
+) :
+    CommandArgument(name, StringArgument::class.java, description, required, predefined)

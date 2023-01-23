@@ -1,10 +1,11 @@
 package me.alexirving.lib.command.core
 
+import me.alexirving.lib.command.core.content.BaseCommand
 import me.alexirving.lib.command.core.content.CommandInfo
 import me.alexirving.lib.command.core.content.CommandResult
 
-abstract class MessagePlatform<U, C : CommandInfo<U>, P : Permission<U>>(private val prefix: String) :
-    Platform<U, C, P>() {
+abstract class MessagePlatform<U, C : CommandInfo<U>, P : Permission<U>, BC : BaseCommand<U, C, P>>(private val prefix: String) :
+    Platform<U, C, P, BC>() {
 
 
     fun onMessage(sender: U, message: String, respond: Boolean = true, result: (result: CommandResult) -> Unit) {

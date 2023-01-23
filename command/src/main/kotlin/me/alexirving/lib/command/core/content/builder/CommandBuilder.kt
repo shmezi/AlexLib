@@ -1,18 +1,21 @@
 package me.alexirving.lib.command.core.content.builder
 
 import me.alexirving.lib.command.core.Permission
+import me.alexirving.lib.command.core.Platform
 import me.alexirving.lib.command.core.argument.CommandArgument
 import me.alexirving.lib.command.core.content.BaseCommand
 import me.alexirving.lib.command.core.content.CommandInfo
 import me.alexirving.lib.command.core.content.CommandResult
-import me.alexirving.lib.command.core.content.SubCommand
 import me.alexirving.lib.util.pq
 
 /**
  * A command builder allows for the easy creation of commands mostly for sub commands.
  * This class I found quite confusing so there's a bit more doc then usual.
  */
-class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>>(private var base: BaseCommand<U, C, P>) {
+open class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>, BC : BaseCommand<U, C, P>>(
+    private var base: BC,
+    private val platform: Platform<U, C, P, BC>
+) {
 
 
     fun build() = base
@@ -36,10 +39,10 @@ class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>>(private var base:
     }
 
 
-    fun sub(name: String, command: CommandBuilder<U, C, P>.() -> Unit) {
+    fun sub(name: String, command: CommandBuilder<U, C, P, BC>.() -> Unit) {
         "Made a sub-command of $name".pq()
         //Making a new commandBuilder for the sub command
-        val subCommand = CommandBuilder<U, C, P>(SubCommand(name))
+        val subCommand = CommandBuilder(platform.buildSubCommand(name), platform)
         //Running the context with the subCommand we just made
         command(subCommand)
         //Adding the command to the sub commands of the builder

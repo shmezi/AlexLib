@@ -13,5 +13,7 @@ class FloatResolver<U> :
     }
 }
 
-class FloatArgument(name: String, description: String = "", required: Boolean = true) :
-    CommandArgument(name, description, required, Int::class.java)
+class FloatArgument(name: String, description: String = "No argument has been provided!", required: Boolean = true,
+                    predefined: Boolean = false
+) :
+    CommandArgument(name, Float::class.java, description, required, predefined)

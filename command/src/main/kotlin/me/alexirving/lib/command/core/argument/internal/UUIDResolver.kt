@@ -14,5 +14,7 @@ class UUIDResolver<U> :
 
 }
 
-class UUIDArgument(name: String, description: String = "", required: Boolean = true) :
-    CommandArgument(name, description, required, UUID::class.java)
+class UUIDArgument(name: String, description: String = "No argument has been provided!", required: Boolean = true,
+                   predefined: Boolean = false
+) :
+    CommandArgument(name, Boolean::class.java, description, required, predefined)

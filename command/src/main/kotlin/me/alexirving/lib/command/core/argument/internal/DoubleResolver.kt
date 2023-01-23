@@ -14,5 +14,8 @@ class DoubleResolver<U> :
     }
 }
 
-class DoubleArgument(name: String, description: String = "", required: Boolean = true) :
-    CommandArgument(name, description, required, Int::class.java)
+class DoubleArgument(
+    name: String, description: String = "No argument has been provided!", required: Boolean = true,
+    predefined: Boolean = false
+) :
+    CommandArgument(name, Int::class.java, description, required, predefined)

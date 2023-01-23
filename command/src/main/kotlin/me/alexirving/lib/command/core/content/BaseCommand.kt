@@ -69,7 +69,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
      * }
      * ```
      */
-    abstract fun builder(): Context<U, C, P>
+    abstract fun builder(): Context<U, C, P, *>
 
 
     private val emptyArgs = mapOf<String, Argument>()
@@ -77,8 +77,8 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
     /**
      * Logic behind running of a command
      */
-    fun runCommand(
-        platform: Platform<U, C, P>,
+    fun <BC : BaseCommand<U, C, P>> runCommand(
+        platform: Platform<U, C, P, BC>,
         sender: U,
         cmd: String,
         args: List<Any>,
@@ -90,7 +90,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
 
             val arguments = mutableMapOf<String, Argument>()
             for ((index, arg) in requiredArguments.withIndex()) {
-                if (!platform.resolver.resolve(arg.clazz, sender, args[index]) {
+                if (!platform.resolver.resolve(arg.clazz, arg.predefined, sender, args[index]) {
                         arguments[arg.name] = Argument(it)
                     }) {
                     return CommandResult.WRONG_ARG_TYPE
@@ -102,7 +102,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
                     break
 
                 val r = optionalArguments[index]
-                platform.resolver.resolve(r.clazz, sender, arg) {
+                platform.resolver.resolve(r.clazz, r.predefined, sender, arg) {
                     arguments[r.name] = Argument(it)
                 }
             }
