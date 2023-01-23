@@ -6,22 +6,24 @@ import me.alexirving.lib.command.core.argument.ArgumentParser
 import me.alexirving.lib.command.core.content.BaseCommand
 import me.alexirving.lib.command.core.content.CommandInfo
 import me.alexirving.lib.command.core.content.CommandResult
+import me.alexirving.lib.command.core.content.builder.CommandBuilder
 import me.alexirving.lib.util.pq
 
-abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>, BC : BaseCommand<U, C, P>> {
+abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>,CB:CommandBuilder<U,C,P>> {
 
-    protected val mappings = mutableMapOf<String, BC>()
+    protected val mappings = mutableMapOf<String, BaseCommand<U,C,P,*>>()
     val resolver = ArgumentParser<U>()
     private var messages = mutableMapOf<CommandResult, String>()
 
 
-    open fun register(command: BC) {
+    open fun register(command: BaseCommand<U,C,P,CB>) {
         val f = command.builder().build(command, this)
         mappings[command.name] = f
         "Registered command: ${f.name}.".pq()
     }
 
-    abstract fun buildSubCommand(name: String): BC
+    abstract fun buildSubCommand(name: String): BaseCommand<U,C,P,CB>
+    abstract fun getBuilder(base: BaseCommand<U, C, P, CB>): CB
 
 
     open fun unregister(command: String) {
@@ -40,7 +42,7 @@ abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>, BC : BaseComma
 
     abstract fun getInfo(sender: U, cmd: String, arguments: MutableMap<String, Argument>): C
     protected abstract fun <M> sendMessage(sender: U, message: M)
-    protected fun unregister(command: BC) {
+    protected fun unregister(command: BaseCommand<U,C,P,CB>) {
         mappings.remove(command.name)
     }
 
@@ -55,7 +57,7 @@ abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>, BC : BaseComma
 
         val command = mappings[cmd]
 
-        command?.runCommand<BC>(this, sender, cmd, args) {
+        command?.runCommand(this, sender, cmd, args) {
             if (message && !it.success)
                 sendMessage(sender, getMessage(it))
             result(it)

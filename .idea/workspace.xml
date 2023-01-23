@@ -5,36 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="Reverted to a simpler arguments that would be passed on since it was stupid.">
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDABuilder.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAContext.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommandContext.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/MessagePlatform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/MessagePlatform.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentParser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/ArgumentParser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/CommandArgument.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/CommandArgument.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/BooleanResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/BooleanResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/DoubleResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/DoubleResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/FloatResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/FloatResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/IntResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/IntResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/StringResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/StringResolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/UUIDResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/argument/internal/UUIDResolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/Context.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/Context.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDABuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDABuilder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDACommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDACommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAContext.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAPlatform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAPlatform.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestEnv.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestEnv.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/AwesomeCMD.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/ConsoleTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/ConsoleTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/TestCMD.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/terminal/TestCMD.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,13 +41,13 @@
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
-        <task path="$PROJECT_DIR$/utilities">
-          <activation />
-        </task>
         <task path="$PROJECT_DIR$/command">
           <activation />
         </task>
         <task path="$PROJECT_DIR$/event">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/utilities">
           <activation />
         </task>
         <projects_view>
@@ -142,21 +128,35 @@
   </component>
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="5" />
-  </component>
-  <component name="GoLibraries">
-    <option name="indexEntireGoPath" value="true" />
-  </component>
-  <component name="KotlinCodeInsightWorkspaceSettings">
-    <option name="optimizeImportsOnTheFly" value="true" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1674501746" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="develop" />
+                    <option name="lastUsedInstant" value="1674501745" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
   </component>
   <component name="MacroExpansionManager">
-    <option name="directoryName" value="jn71wngv" />
+    <option name="directoryName" value="2mfit15v" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2KYJ2LDjNvzPUaD2osQ4FG0qhNY" />
   <component name="ProjectViewState">
@@ -168,18 +168,12 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/tofik/OneDrive/Документы/GitHub/AlexLib/command&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.ApplicationConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -190,12 +184,6 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\tofik\OneDrive\Документы\GitHub\AlexLib\command\src\main\kotlin\me\alexirving\lib\command\core\content" />
-    </key>
-    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="me.alexirving.lib.command.core" />
-    </key>
-    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="me.alexirving.lib.command.core.argument.internal" />
     </key>
   </component>
   <component name="RunManager" selected="Kotlin.TestEnvKt">
@@ -241,69 +229,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="AlexLib:command [publish]" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/command" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="-PcommandUsername=shmezi -PcommandPassword=1m56mKbP5ucErKHXujXwhbFbrULEcQCXee1yPcncFIqehj7gOykF1szinAoOUyj/" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="publish" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="AlexLib:database [publish]" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/database" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="-PdatabaseUsername=shmezi -PdatabasePassword=1m56mKbP5ucErKHXujXwhbFbrULEcQCXee1yPcncFIqehj7gOykF1szinAoOUyj/" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="publish" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="AlexLib:event [publish]" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/event" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="-PeventUsername=shmezi -PeventPassword=1m56mKbP5ucErKHXujXwhbFbrULEcQCXee1yPcncFIqehj7gOykF1szinAoOUyj/" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="publish" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="AlexLib:utilities [publishAllPublicationsToUtilitiesRepository]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -316,27 +241,6 @@
         <option name="taskNames">
           <list>
             <option value="publishAllPublicationsToUtilitiesRepository" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="AlexLib:utilities [publish]" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/utilities" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="-PutilitiesUsername=shmezi -PutilitiesPassword=1m56mKbP5ucErKHXujXwhbFbrULEcQCXee1yPcncFIqehj7gOykF1szinAoOUyj/" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="publish" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -365,8 +269,8 @@
         <item itemvalue="Kotlin.TestEnvKt" />
         <item itemvalue="Kotlin.ConsoleTestKt (1)" />
         <item itemvalue="Gradle.AlexLib:utilities [publishAllPublicationsToUtilitiesRepository]" />
-        <item itemvalue="Gradle.AlexLib [publish]" />
         <item itemvalue="Gradle.AlexLib [publishToMavenLocal]" />
+        <item itemvalue="Gradle.AlexLib [publish]" />
       </list>
     </recent_temporary>
   </component>
@@ -379,81 +283,13 @@
       <option name="presentableId" value="Default" />
       <updated>1674145375188</updated>
       <workItem from="1674145376423" duration="971000" />
-      <workItem from="1674163929503" duration="6554000" />
-      <workItem from="1674206406908" duration="192000" />
-      <workItem from="1674206832556" duration="469000" />
-      <workItem from="1674207319301" duration="6044000" />
-      <workItem from="1674214421136" duration="5000" />
-      <workItem from="1674215973077" duration="1130000" />
-      <workItem from="1674218689968" duration="97000" />
-      <workItem from="1674222888682" duration="1449000" />
-      <workItem from="1674224624594" duration="482000" />
-      <workItem from="1674227146009" duration="94000" />
-      <workItem from="1674227468470" duration="354000" />
-      <workItem from="1674227956205" duration="146000" />
-      <workItem from="1674228799827" duration="1907000" />
-      <workItem from="1674293994853" duration="440000" />
-      <workItem from="1674317913932" duration="16637000" />
+      <workItem from="1674504308419" duration="639000" />
+      <workItem from="1674511383425" duration="1364000" />
     </task>
-    <task id="LOCAL-00001" summary="A fully working lovely command system. Please be warned that it has not been optimized yet.">
-      <created>1674210886674</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1674210886674</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Added MessagePlatform to allow easy creation of message platforms with a prefix">
-      <created>1674213660598</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1674213660598</updated>
-    </task>
-    <task id="LOCAL-00003" summary=".">
-      <created>1674216035922</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1674216035922</updated>
-    </task>
-    <task id="LOCAL-00004" summary=".">
-      <created>1674218205701</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1674218205701</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Small fix">
-      <created>1674227557836</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1674227557836</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Arguments are now actually parsed properly.&#10;The entire command system is async :)&#10;Started work on JDA Impl of command Framework">
-      <created>1674336055367</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1674336055367</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="A fully working lovely command system. Please be warned that it has not been optimized yet." />
-    <MESSAGE value="Added MessagePlatform to allow easy creation of message platforms with a prefix" />
-    <MESSAGE value="." />
-    <MESSAGE value="Small fix" />
-    <MESSAGE value="Arguments are now actually parsed properly.&#10;The entire command system is async :)&#10;Started work on JDA Impl of command Framework" />
-    <option name="LAST_COMMIT_MESSAGE" value="Arguments are now actually parsed properly.&#10;The entire command system is async :)&#10;Started work on JDA Impl of command Framework" />
-  </component>
-  <component name="VgoProject">
-    <integration-enabled>false</integration-enabled>
-    <settings-migrated>true</settings-migrated>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

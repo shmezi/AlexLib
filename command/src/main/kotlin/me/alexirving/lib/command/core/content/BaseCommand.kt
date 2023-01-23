@@ -4,6 +4,7 @@ import me.alexirving.lib.command.core.Permission
 import me.alexirving.lib.command.core.Platform
 import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.argument.CommandArgument
+import me.alexirving.lib.command.core.content.builder.CommandBuilder
 import me.alexirving.lib.command.core.content.builder.Context
 
 
@@ -14,7 +15,7 @@ import me.alexirving.lib.command.core.content.builder.Context
  * @param P The permission implementation used.
  * @param name Name of the command
  */
-abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
+abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, CB : CommandBuilder<U, C, P>>(
     name: String
 ) {
     var name = name.lowercase()
@@ -32,14 +33,14 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
         private set
     var optionalArguments = arguments.filter { !it.required }
         private set
-    val subs = mutableMapOf<String, BaseCommand<U, C, P>>()
+    val subs = mutableMapOf<String, BaseCommand<U, C, P, *>>()
     var action: ((context: C) -> CommandResult)? = null
 
 
     /**
      * Get a sub-command by name if it exists
      */
-    private fun subIfExists(name: String): BaseCommand<U, C, P>? {
+    private fun subIfExists(name: String): BaseCommand<U, C, P, *>? {
         return if (subs.isNotEmpty())
             subs[name]
         else
@@ -56,7 +57,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
 
     fun hasPermission(user: U) = permission?.hasPermission(user) ?: true
 
-    fun registerSub(command: BaseCommand<U, C, P>) {
+    fun registerSub(command: BaseCommand<U, C, P, *>) {
         subs[command.name] = command
     }
 
@@ -69,7 +70,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
      * }
      * ```
      */
-    abstract fun builder(): Context<U, C, P, *>
+    abstract fun builder(): Context<U, C, P, CB>
 
 
     private val emptyArgs = mapOf<String, Argument>()
@@ -77,8 +78,8 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>>(
     /**
      * Logic behind running of a command
      */
-    fun <BC : BaseCommand<U, C, P>> runCommand(
-        platform: Platform<U, C, P, BC>,
+    fun runCommand(
+        platform: Platform<U, C, P, *>,
         sender: U,
         cmd: String,
         args: List<Any>,
