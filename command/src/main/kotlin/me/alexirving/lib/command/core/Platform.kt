@@ -9,20 +9,20 @@ import me.alexirving.lib.command.core.content.CommandResult
 import me.alexirving.lib.command.core.content.builder.CommandBuilder
 import me.alexirving.lib.util.pq
 
-abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>,CB:CommandBuilder<U,C,P>> {
+abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>, CB : CommandBuilder<U, C, P>> {
 
-    protected val mappings = mutableMapOf<String, BaseCommand<U,C,P,*>>()
+    protected open val mappings = mutableMapOf<String, BaseCommand<U, C, P, *>>()
     val resolver = ArgumentParser<U>()
     private var messages = mutableMapOf<CommandResult, String>()
 
 
-    open fun register(command: BaseCommand<U,C,P,CB>) {
+    open fun register(command: BaseCommand<U, C, P, CB>) {
         val f = command.builder().build(command, this)
         mappings[command.name] = f
         "Registered command: ${f.name}.".pq()
     }
 
-    abstract fun buildSubCommand(name: String): BaseCommand<U,C,P,CB>
+    abstract fun buildSubCommand(name: String): BaseCommand<U, C, P, CB>
     abstract fun getBuilder(base: BaseCommand<U, C, P, CB>): CB
 
 
@@ -42,7 +42,7 @@ abstract class Platform<U, C : CommandInfo<U>, P : Permission<U>,CB:CommandBuild
 
     abstract fun getInfo(sender: U, cmd: String, arguments: MutableMap<String, Argument>): C
     protected abstract fun <M> sendMessage(sender: U, message: M)
-    protected fun unregister(command: BaseCommand<U,C,P,CB>) {
+    protected fun unregister(command: BaseCommand<U, C, P, CB>) {
         mappings.remove(command.name)
     }
 

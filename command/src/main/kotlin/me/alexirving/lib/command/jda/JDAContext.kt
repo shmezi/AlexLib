@@ -6,4 +6,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 class JDAContext(command: JDABuilder.() -> Unit) :
     Context<SlashCommandInteractionEvent, JDASender, JDAPermission, JDABuilder>(
         command
-    )
+    ){
+
+    }

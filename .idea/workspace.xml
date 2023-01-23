@@ -4,23 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="Reverted to a simpler arguments that would be passed on since it was stupid.">
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommandContext.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+    <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="Excitement!">
+      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDASubcommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/MessagePlatform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/MessagePlatform.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/SubCommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/Context.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/Context.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDABuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDABuilder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDACommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDACommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAContext.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAPlatform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAPlatform.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestEnv.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestEnv.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,12 +283,24 @@
       <updated>1674145375188</updated>
       <workItem from="1674145376423" duration="971000" />
       <workItem from="1674504308419" duration="639000" />
-      <workItem from="1674511383425" duration="1364000" />
+      <workItem from="1674511383425" duration="4262000" />
     </task>
+    <task id="LOCAL-00001" summary="Excitement!">
+      <created>1674512804008</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1674512804008</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Excitement!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Excitement!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

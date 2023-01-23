@@ -79,7 +79,7 @@ abstract class BaseCommand<U, C : CommandInfo<U>, P : Permission<U>, CB : Comman
      * Logic behind running of a command
      */
     fun runCommand(
-        platform: Platform<U, C, P, *>,
+        platform: Platform<U, C, P,*>,
         sender: U,
         cmd: String,
         args: List<Any>,

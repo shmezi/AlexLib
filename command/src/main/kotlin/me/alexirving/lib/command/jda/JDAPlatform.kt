@@ -15,10 +15,13 @@ import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 
+typealias JDAB = me.alexirving.lib.command.jda.JDABuilder
+
 class JDAPlatform(private val jda: JDA) :
-    Platform<SlashCommandInteractionEvent, JDASender, JDAPermission,me.alexirving.lib.command.jda.JDABuilder>() {
+    Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB>() {
     constructor(token: String) : this(JDABuilder.createDefault(token).build())
 
+    override val mappings = mutableMapOf<String,JDACommand>()
     private val listener = JDAListener(this)
 
     init {
@@ -33,7 +36,7 @@ class JDAPlatform(private val jda: JDA) :
 
     }
 
-    override fun register(command: BaseCommand<SlashCommandInteractionEvent, JDASender, JDAPermission,me.alexirving.lib.command.jda.JDABuilder>) {
+    override fun register(command: BaseCommand<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB>) {
 
         super.register(command)
 //        command.defaultPermissions
@@ -65,13 +68,9 @@ class JDAPlatform(private val jda: JDA) :
     }
 
 
-    override fun buildSubCommand(name: String): JDACommand {
-        TODO("Not yet implemented")
-    }
+    override fun buildSubCommand(name: String) = JDASubcommand(name)
 
-    override fun getBuilder(base: BaseCommand<SlashCommandInteractionEvent, JDASender, JDAPermission, me.alexirving.lib.command.jda.JDABuilder>): me.alexirving.lib.command.jda.JDABuilder {
-        TODO("Not yet implemented")
-    }
+    override fun getBuilder(base: BaseCommand<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB>) = JDAB(base, this)
 
 
     override fun unregister(command: String) {
@@ -109,9 +108,9 @@ class JDAPlatform(private val jda: JDA) :
         result: (result: CommandResult) -> Unit
     ) {
         val command = mappings[cmd] ?: throw ClassNotFoundException("Command not found!")
-//        sender.deferReply(command.ephemeral).queue {
-//            super.sendCommand(sender, cmd, args, message, result)
-//        }
+        sender.deferReply(command.ephemeral).queue {
+            super.sendCommand(sender, cmd, args, message, result)
+        }
     }
 
     fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {

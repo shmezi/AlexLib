@@ -12,9 +12,8 @@ import me.alexirving.lib.util.pq
  * A command builder allows for the easy creation of commands mostly for sub commands.
  * This class I found quite confusing so there's a bit more doc then usual.
  */
-open class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>>(
-    private var base: BaseCommand<U, C, P, *>,
-    private val platform: Platform<U, C, P, *>
+abstract class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>>(
+    private var base: BaseCommand<U, C, P, *>
 ) {
 
 
@@ -39,14 +38,18 @@ open class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>>(
     }
 
 
-    fun sub(name: String, command: CommandBuilder<U, C, P>.() -> Unit) {
+    protected fun <CB : CommandBuilder<U, C, P>> sub(
+        platform: Platform<U, C, P,CB>,
+        name: String,
+        command: CB.() -> Unit
+    ) {
         "Made a sub-command of $name".pq()
         //Making a new commandBuilder for the sub command
-        val subCommand = platform.buildSubCommand(name)
+        val subCommand = platform.getBuilder(platform.buildSubCommand(name))
         //Running the context with the subCommand we just made
-//        command(subCommand) TODO: ADD back
+        command(subCommand)
         //Adding the command to the sub commands of the builder
-        base.registerSub(subCommand)
+        base.registerSub(subCommand.build())
     }
 
 }
