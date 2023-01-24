@@ -6,14 +6,16 @@ import me.alexirving.lib.command.jda.JDAContext
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions
 
 class TestCommand : JDACommand("tests") {
-    override fun jdaBuilder() = JDAContext {
+    override fun builder() = JDAContext {
         sub("test") {
             jdaPermission(DefaultMemberPermissions.DISABLED)
-
-
             action {
+
                 CommandResult.SUCCESS
             }
+        }
+        action{
+            CommandResult.SUCCESS
         }
     }
 }

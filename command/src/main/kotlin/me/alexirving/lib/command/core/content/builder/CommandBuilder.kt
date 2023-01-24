@@ -12,15 +12,21 @@ import me.alexirving.lib.util.pq
  * A command builder allows for the easy creation of commands mostly for sub commands.
  * This class I found quite confusing so there's a bit more doc then usual.
  */
-abstract class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>>(
-    private var base: BaseCommand<U, C, P, *>
+abstract class CommandBuilder<U,
+        C : CommandInfo<U>,
+        P : Permission<U>,
+        CB : CommandBuilder<U, C, P, CB, BC, CX>,
+        BC : BaseCommand<U, C, P, BC, CB, CX>,
+        CX : Context<U, C, P, BC, CB, CX>>(
+    private var base: BC,
+    private val platform: Platform<U, C, P, CB, BC, CX>
 ) {
 
 
     fun build() = base
 
 
-  open  fun name(name: String) {
+    open fun name(name: String) {
         this.base.name = name
     }
 
@@ -38,8 +44,7 @@ abstract class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>>(
     }
 
 
-    protected fun <CB : CommandBuilder<U, C, P>> sub(
-        platform: Platform<U, C, P,CB>,
+    fun sub(
         name: String,
         command: CB.() -> Unit
     ) {

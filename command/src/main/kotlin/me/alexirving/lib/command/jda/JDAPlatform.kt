@@ -3,7 +3,6 @@ package me.alexirving.lib.command.jda
 import me.alexirving.lib.command.core.Platform
 import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.argument.CommandArgument
-import me.alexirving.lib.command.core.content.BaseCommand
 import me.alexirving.lib.command.core.content.CommandResult
 import me.alexirving.lib.util.pq
 import net.dv8tion.jda.api.JDA
@@ -18,7 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 typealias JDAB = me.alexirving.lib.command.jda.JDABuilder
 
 class JDAPlatform(private val jda: JDA) :
-    Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB>() {
+    Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB,JDACommand,JDAContext>() {
     constructor(token: String) : this(JDABuilder.createDefault(token).build())
 
     private val listener = JDAListener(this)
@@ -35,7 +34,7 @@ class JDAPlatform(private val jda: JDA) :
 
     }
 
-    override fun register(command: BaseCommand<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB>) {
+    override fun register(command: JDACommand) {
 
         super.register(command)
 //        command.defaultPermissions
@@ -69,7 +68,7 @@ class JDAPlatform(private val jda: JDA) :
 
     override fun buildSubCommand(name: String) = JDASubcommand(name)
 
-    override fun getBuilder(base: BaseCommand<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB>) = JDAB(base, this)
+    override fun getBuilder(base: JDACommand) = JDAB(base, this)
 
 
     override fun unregister(command: String) {
@@ -107,7 +106,6 @@ class JDAPlatform(private val jda: JDA) :
         result: (result: CommandResult) -> Unit
     ) {
         val command = mappings[cmd] ?: throw ClassNotFoundException("Command not found!")
-        if (command !is JDACommand ) throw ClassNotFoundException("Use JDA Command")
         sender.deferReply(command.ephemeral).queue {
             super.sendCommand(sender, cmd, args, message, result)
         }
