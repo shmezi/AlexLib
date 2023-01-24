@@ -16,17 +16,23 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 
 typealias JDAB = me.alexirving.lib.command.jda.JDABuilder
 
+/**
+ * A [JDA] implementation of [Platform]
+ */
 class JDAPlatform(private val jda: JDA) :
-    Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB,JDACommand,JDAContext>() {
+    Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB, JDACommand, JDAContext>() {
     constructor(token: String) : this(JDABuilder.createDefault(token).build())
 
     private val listener = JDAListener(this)
 
     init {
         jda.addEventListener(listener)
+        "https://discord.com/oauth2/authorize?client_id=${jda.selfUser.id}&scope=bot%20applications.commands&permissions=2147484672".pq(
+            "Discord invite link"
+        )
     }
 
-    fun typeFromArg(argument: CommandArgument) = when (argument.clazz) {
+    private fun typeFromArg(argument: CommandArgument) = when (argument.clazz) {
         Message.Attachment::class.java -> OptionType.ATTACHMENT
         Boolean::class.java -> OptionType.STRING
         Int::class.java -> OptionType.INTEGER
@@ -37,7 +43,6 @@ class JDAPlatform(private val jda: JDA) :
     override fun register(command: JDACommand) {
 
         super.register(command)
-//        command.defaultPermissions
 
         val data = Commands.slash(command.name, command.description ?: "empty")
         command.requiredArguments.pq("R")

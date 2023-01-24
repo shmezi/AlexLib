@@ -18,7 +18,8 @@ import me.alexirving.lib.util.pq
  * @param CB Type of [CommandBuilder] that the platform uses.
  * @param CX Type of [Context] that the platform uses.
  */
-abstract class Platform<U,
+abstract class Platform<
+        U,
         C : CommandInfo<U>,
         P : Permission<U>,
         CB : CommandBuilder<U, C, P, CB, BC, CX>,
@@ -89,10 +90,11 @@ abstract class Platform<U,
 
     /**
      * Send a message to a [U]
-     * @param user The [U] to send the message to
+     * @param M The type of message to send (Examples: String, EmbedMessage)
+     * @param sender The [U] to send the message to
      * @param message The message to send
      */
-    abstract fun sendMessage(sender: U, message: String)
+    abstract fun <M> sendMessage(sender: U, message: M)
 
     /**
      * Build a sub-command
