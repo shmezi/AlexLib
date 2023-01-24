@@ -2,16 +2,19 @@ package me.alexirving.lib.command.core.content
 
 import me.alexirving.lib.command.core.Permission
 import me.alexirving.lib.command.core.Platform
+import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.argument.CommandArgument
 import me.alexirving.lib.command.core.content.builder.CommandBuilder
 import me.alexirving.lib.command.core.content.builder.Context
 
 
 /**
- * Represents a command that can be registered.
- * @param U The user type for the command
- * @param C The context type for the command ( Could just be [CommandInfo] )
- * @param P The permission implementation used.
+ * A [BaseCommand] is a command that can be implemented for a platform
+ * @param C Type of [CommandInfo] that the platform uses.
+ * @param P Type of [Permission] that the platform uses.
+ * @param BC Type of [BaseCommand] that the platform uses.
+ * @param CB Type of [CommandBuilder] that the platform uses.
+ * @param CX Type of [Context] that the platform uses.
  * @param name Name of the command
  */
 abstract class BaseCommand<U,
@@ -26,23 +29,22 @@ abstract class BaseCommand<U,
         set(value) {
             field = value.lowercase()
         }
-
     var description: String? = null
-
     var permission: P? = null
-    private var arguments = mutableListOf<CommandArgument>()
+    var requiredArguments = listOf<CommandArgument>()
+        private set
+    var optionalArguments = listOf<CommandArgument>()
+        private set
 
 
-    var requiredArguments = arguments.filter { it.required }
-        private set
-    var optionalArguments = arguments.filter { !it.required }
-        private set
     val subs = mutableMapOf<String, BC>()
     var action: ((context: C) -> CommandResult)? = null
 
 
     /**
      * Get a sub-command by name if it exists
+     * @param name The name of the sub-command
+     * @return The sub-command if it exists
      */
     fun subIfExists(name: String): BC? {
         return if (subs.isNotEmpty())
@@ -52,40 +54,102 @@ abstract class BaseCommand<U,
 
     }
 
-    fun setArguments(vararg arguments: CommandArgument) {
-        requiredArguments = arguments.filter { it.required }
-        optionalArguments = arguments.filter { !it.required }
-
-    }
-
-
+    /**
+     * Checks weather a [U] has permission to run the command
+     * @return Boolean value of weather they have permission
+     */
     fun hasPermission(user: U) = permission?.hasPermission(user) ?: true
-
-    fun registerSub(command: BC) {
-        subs[command.name] = command
-    }
 
     /**
      * Override to get a context to build your command.
      *
      * Intended usage:
      * ```kt
-     * override fun builder() = Context(this) {
+     * override fun builder() = CX() {
      * }
      * ```
      */
     abstract fun builder(): CX
-    fun build(
-        base: BC,
-        command: CB.() -> Unit,
-        platform: Platform<U, C, P, CB, BC, CX>
-    ): BC {
-        //The builder that is passed on to the context area of the builder.
-        val builder = platform.getBuilder(base)
-        command(builder)
-        return builder.build()
+
+
+    /**
+     * Set the arguments of the command
+     * @param arguments The arguments
+     */
+    fun setArguments(vararg arguments: CommandArgument) {
+        requiredArguments = arguments.filter { it.required }
+        optionalArguments = arguments.filter { !it.required }
     }
 
+    /**
+     * Register a sub-command to the command.
+     * @param command The sub-command to register
+     */
+    fun registerSub(command: BC) {
+        subs[command.name] = command
+    }
+
+    /**
+     * The logic behind running a command
+     * @param platform The [Platform] that is used
+     * @param sender U Sender of command
+     * @param cmd The command run
+     * @param args The arguments provided
+     * @param result The method that will be called with the [CommandResult] of the command being run.
+     */
+    fun runCommand(
+        platform: Platform<U, C, P, *, BC, CX>,
+        sender: U,
+        cmd: String,
+        args: List<Any>,
+        result: (result: CommandResult) -> Unit
+    ) {
+
+        fun runner(): CommandResult {
+            if (!hasPermission(sender)) return CommandResult.NO_PERMISSION
+
+            val arguments = mutableMapOf<String, Argument>()
+            for ((index, arg) in requiredArguments.withIndex()) {
+                if (!platform.resolver.resolve(arg.clazz, arg.predefined, sender, args[index]) {
+                        arguments[arg.name] = Argument(it)
+                    }) {
+                    return CommandResult.WRONG_ARG_TYPE
+                }
+            }
+
+            for ((index, arg) in args.withIndex()) {
+                if (index >= optionalArguments.size)
+                    break
+
+                val r = optionalArguments[index]
+                platform.resolver.resolve(r.clazz, r.predefined, sender, arg) {
+                    arguments[r.name] = Argument(it)
+                }
+            }
+
+            return action?.invoke(platform.getInfo(sender, cmd, arguments)) ?: CommandResult.NO_ACTION_SET
+        }
+
+        if (requiredArguments.size > args.size) {
+            result(CommandResult.NOT_ENOUGH_ARGS)
+            return
+
+        }
+
+        if (args.isEmpty()) result(runner()) else {
+            val arg = args[0]
+            if (arg is String)
+                subIfExists(arg)?.runCommand(platform, sender, arg, args.drop(1)) {
+                    result(it)
+                } ?: result(runner())
+            else result(runner())
+        }
+    }
+
+
+    /**
+     * A console-readable text version of the command.
+     */
     override fun toString(): String =
         """
     Command: $name

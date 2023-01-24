@@ -1,6 +1,10 @@
 package me.alexirving.lib.command.core.content
 
-
+/**
+ * The result of a command being executed
+ * @param default The default message for this result
+ * @param success Weather the command was executed successfully
+ */
 enum class CommandResult(val default: String, val success: Boolean) {
     SUCCESS("", true),
     FAILURE("The command was not used correctly!",false),

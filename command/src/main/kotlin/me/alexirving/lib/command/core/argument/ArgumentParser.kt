@@ -4,6 +4,9 @@ import me.alexirving.lib.command.core.argument.internal.IntResolver
 import me.alexirving.lib.command.core.argument.internal.StringResolver
 import me.alexirving.lib.command.core.argument.internal.UUIDResolver
 
+/**
+ * The [ArgumentParser] allows the parsing of a value with type to be parsed using a registered [ArgumentResolver]
+ */
 class ArgumentParser<U> {
     private val mapping = mutableMapOf<Class<*>, ArgumentResolver<U, *>>()
 
@@ -12,9 +15,9 @@ class ArgumentParser<U> {
     }
 
     /**
-     * Registers a new resolver.
+     * Registers a new argument resolver.
      * @param clazz The class to resolve
-     * @param resolver Method to resolve the
+     * @param resolver Method to resolve the argument.
      */
     fun <T : Any> register(clazz: Class<*>, resolver: (sender: U, text: String) -> T?) {
         mapping[clazz] = object : ArgumentResolver<U, T>(clazz) {
@@ -24,12 +27,25 @@ class ArgumentParser<U> {
         }
     }
 
+    /**
+     * Registers new [ArgumentResolver]s.
+     * @param resolvers The resolvers to register
+     */
     fun register(vararg resolvers: ArgumentResolver<U, *>) {
         resolvers.forEach {
             mapping[it.clazz] = it
         }
     }
 
+    /**
+     * Resolves text based on the provided text
+     * @param clazz The class of the type to resolve
+     * @param pre Defines if the argument is already parsed and just needs to be passed on.
+     * @param sender Sender of the command.
+     * @param text The text to resolve
+     * @param resolved A method that will be called once the text is resolved.
+     *
+     */
     fun resolve(
         clazz: Class<*>,
         pre: Boolean,
@@ -40,9 +56,10 @@ class ArgumentParser<U> {
         val arg =
             mapping[clazz] ?: throw NotImplementedError("No resolver was registered for type of ${clazz.typeName}")
 
-        return if (pre)
+        return if (pre) {
             arg.resolvePreDefined(text) { resolved(it) }
-        else
+            true
+        } else
             arg.resolve(sender, text as String) {
                 resolved(it)
             }

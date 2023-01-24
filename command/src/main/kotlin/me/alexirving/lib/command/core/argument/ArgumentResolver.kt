@@ -5,21 +5,30 @@ package me.alexirving.lib.command.core.argument
  * An [ArgumentResolver] Resolves it from text
  * @param U Type of sender
  * @param T Datatype of Class to resolve
- * @param S Type of text that gets resolved (this is useful for command systems like d
  * @param clazz The class to resolve
+ * @param preResolved Weather the argument is predefined
  */
 abstract class ArgumentResolver<U, T : Any>(
     val clazz: Class<*>,
-    val predefined: Boolean = false
+    val preResolved: Boolean = false
 ) {
 
     /**
-     * Resolve an argument async
+     * Resolves the argument.
+     * @param sender Sender of the command
+     * @param text Text to be resolved
+     * @param resolved The method that will be called once the method is resolved
+     * @return Weather the value was resolved
      */
     open fun resolve(sender: U, text: String, resolved: (resolved: T) -> Unit): Boolean = false
-    open fun resolvePreDefined(text: Any, resolved: (resolved: Any) -> Unit): Boolean {
+    /**
+     * Resolves a preresolved argument.
+     * @param text Text to be resolved
+     * @param resolved The method that will be called once the method is resolved
+     */
+    open fun resolvePreDefined(text: Any, resolved: (resolved: Any) -> Unit) {
         resolved(text )
-        return true
+
     }
 
 }

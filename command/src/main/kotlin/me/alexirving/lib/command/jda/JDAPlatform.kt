@@ -68,7 +68,7 @@ class JDAPlatform(private val jda: JDA) :
 
     override fun buildSubCommand(name: String) = JDASubcommand(name)
 
-    override fun getBuilder(base: JDACommand) = JDAB(base, this)
+    override fun buildBuilder(base: JDACommand) = JDAB(base, this)
 
 
     override fun unregister(command: String) {

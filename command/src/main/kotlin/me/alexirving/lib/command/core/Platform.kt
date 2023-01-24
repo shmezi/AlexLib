@@ -10,6 +10,14 @@ import me.alexirving.lib.command.core.content.builder.CommandBuilder
 import me.alexirving.lib.command.core.content.builder.Context
 import me.alexirving.lib.util.pq
 
+/**
+ * A platform implementation of the command system
+ * @param C Type of [CommandInfo] that the platform uses.
+ * @param P Type of [Permission] that the platform uses.
+ * @param BC Type of [BaseCommand] that the platform uses.
+ * @param CB Type of [CommandBuilder] that the platform uses.
+ * @param CX Type of [Context] that the platform uses.
+ */
 abstract class Platform<U,
         C : CommandInfo<U>,
         P : Permission<U>,
@@ -21,96 +29,93 @@ abstract class Platform<U,
     val resolver = ArgumentParser<U>()
     private var messages = mutableMapOf<CommandResult, String>()
 
+    /**
+     * Get's the set [CommandResult] if none exists gets default
+     * @param message The message to get.
+     * @return The messages.
+     */
+    private fun getMessage(message: CommandResult) = messages[message] ?: message.default
 
+    /**
+     * Register a command
+     * @param command The command to register
+     */
     open fun register(command: BC) {
         val f = command.builder().build(command, this)
         mappings[command.name] = f
         "Registered command: ${f.name}.".pq()
     }
 
-    abstract fun buildSubCommand(name: String): BC
-    abstract fun getBuilder(base: BC): CB
-
-
+    /**
+     * Unregister a command using it's ID
+     * @param command ID of the command to unregister
+     */
     open fun unregister(command: String) {
         mappings.remove(command)
     }
 
+    /**
+     * Unregister a command.
+     * @param command The command to unregister
+     */
+    open fun unregister(command: BC) {
+        mappings.remove(command.name)
+    }
+
+    /**
+     * Set a [CommandResult]'s message
+     * @param message The message to set.
+     * @param value The message to set it to.
+     */
     fun setMessage(message: CommandResult, value: String) {
         messages[message] = value
     }
 
+    /**
+     * Set the entire message map.
+     * @param map The messages to set to.
+     */
     fun setMessages(map: MutableMap<CommandResult, String>) {
         messages = map
     }
 
-    private fun getMessage(message: CommandResult) = messages[message] ?: message.default
-
+    /**
+     * Method to get a [C]
+     * @param sender Sender for [C]
+     * @param cmd Command of [C]
+     * @param arguments Argument map of [C]
+     */
     abstract fun getInfo(sender: U, cmd: String, arguments: MutableMap<String, Argument>): C
-    protected abstract fun <M> sendMessage(sender: U, message: M)
-    protected fun unregister(command: BC) {
-        mappings.remove(command.name)
-    }
 
+    /**
+     * Send a message to a [U]
+     * @param user The [U] to send the message to
+     * @param message The message to send
+     */
+    abstract fun sendMessage(sender: U, message: String)
 
-    fun runCommand(
-        base: BC,
-        platform: Platform<U, C, P, *, BC, CX>,
-        sender: U,
-        cmd: String,
-        args: List<Any>,
-        result: (result: CommandResult) -> Unit
-    ) {
-        base.apply {
-            fun runner(): CommandResult {
-                if (!hasPermission(sender)) return CommandResult.NO_PERMISSION
+    /**
+     * Build a sub-command
+     * @param name Name of the sub-command
+     * @return The created [BC] sub-command
+     */
+    abstract fun buildSubCommand(name: String): BC
 
-                val arguments = mutableMapOf<String, Argument>()
-                for ((index, arg) in requiredArguments.withIndex()) {
-                    if (!platform.resolver.resolve(arg.clazz, arg.predefined, sender, args[index]) {
-                            arguments[arg.name] = Argument(it)
-                        }) {
-                        return CommandResult.WRONG_ARG_TYPE
-                    }
-                }
+    /**
+     * Build a [CB]
+     * @param base The base to use for the builder
+     * @return [CB] The builder created.
+     */
+    abstract fun buildBuilder(base: BC): CB
 
-                for ((index, arg) in args.withIndex()) {
-                    if (index >= optionalArguments.size)
-                        break
-
-                    val r = optionalArguments[index]
-                    platform.resolver.resolve(r.clazz, r.predefined, sender, arg) {
-                        arguments[r.name] = Argument(it)
-                    }
-                }
-
-                return action?.invoke(platform.getInfo(sender, cmd, arguments)) ?: CommandResult.NO_ACTION_SET
-            }
-
-            if (requiredArguments.size > args.size) {
-                result(CommandResult.NOT_ENOUGH_ARGS)
-                return
-
-            }
-
-            if (args.isEmpty()) result(runner()) else {
-                val arg = args[0]
-                if (arg is String) {
-                    val sub = subIfExists(arg)
-                    if (sub == null) {
-                        result(runner())
-                        return
-                    }
-                    runCommand(sub, platform, sender, arg, args.drop(1)) {
-                        result(it)
-                    }
-                } else result(runner())
-            }
-
-
-        }
-    }
-
+    /**
+     * Send a command
+     * @param sender [U] of the command
+     * @param cmd The command to run
+     * @param args The arguments to run with
+     * @param message Weather to run the command with a resulting message.
+     * @param result The method called with the result of the command being run.
+     */
     protected open fun sendCommand(
         sender: U,
         cmd: String,
@@ -118,13 +123,12 @@ abstract class Platform<U,
         message: Boolean = true,
         result: (result: CommandResult) -> Unit
     ) {
-
         val command = mappings[cmd]
         if (command == null) {
             result(CommandResult.COMMAND_NOT_FOUND)
             return
         }
-        runCommand(command, this, sender, cmd, args) {
+        command.runCommand(this, sender, cmd, args) {
             if (message && !it.success)
                 sendMessage(sender, getMessage(it))
             result(it)

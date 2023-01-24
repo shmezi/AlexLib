@@ -3,19 +3,15 @@ package me.alexirving.lib.command.jda.testenv
 import me.alexirving.lib.command.core.content.CommandResult
 import me.alexirving.lib.command.jda.JDACommand
 import me.alexirving.lib.command.jda.JDAContext
-import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions
 
 class TestCommand : JDACommand("tests") {
     override fun builder() = JDAContext {
-        sub("test") {
-            jdaPermission(DefaultMemberPermissions.DISABLED)
-            action {
+      sub("cool"){
+          action{
 
-                CommandResult.SUCCESS
-            }
-        }
-        action{
-            CommandResult.SUCCESS
-        }
+              sender.hook.editOriginal("Cool command has been run!").queue()
+              CommandResult.SUCCESS
+          }
+      }
     }
 }
