@@ -17,6 +17,7 @@ abstract class EventManager(val async: Boolean = true) {
     private val eventListeners: MutableMap<Class<out Event>, MutableList<EventConsumer<*>>> = ConcurrentHashMap()
     private val threadPool: ThreadPoolExecutor = ThreadPoolExecutor(0, 10, 60L, TimeUnit.SECONDS, SynchronousQueue())
 
+    private val children: MutableSet<EventManager> = mutableSetOf()
 
     /**
      * Adds an [EventConsumer] for a specific event type.
@@ -40,6 +41,12 @@ abstract class EventManager(val async: Boolean = true) {
      */
     inline fun <reified T: Event> addListener(listenerClass: Class<T>, consumer: Consumer<T>) {
         addListener(EventListener.Companion.Builder(listenerClass, consumer).build())
+    }
+
+    fun addChild(child: EventManager) {
+        synchronized(CHILD_LOCK) {
+            children.add(child)
+        }
     }
 
 
@@ -102,6 +109,9 @@ abstract class EventManager(val async: Boolean = true) {
             consumers.forEach {
                 (it as EventConsumer<T>).accept(event)
             }
+
+            if (children.isEmpty()) return
+            children.forEach { it.callEvent(event) }
         }
     }
 
