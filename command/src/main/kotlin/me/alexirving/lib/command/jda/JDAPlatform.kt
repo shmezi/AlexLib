@@ -21,7 +21,6 @@ class JDAPlatform(private val jda: JDA) :
     Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB>() {
     constructor(token: String) : this(JDABuilder.createDefault(token).build())
 
-    override val mappings = mutableMapOf<String,JDACommand>()
     private val listener = JDAListener(this)
 
     init {
@@ -108,6 +107,7 @@ class JDAPlatform(private val jda: JDA) :
         result: (result: CommandResult) -> Unit
     ) {
         val command = mappings[cmd] ?: throw ClassNotFoundException("Command not found!")
+        if (command !is JDACommand ) throw ClassNotFoundException("Use JDA Command")
         sender.deferReply(command.ephemeral).queue {
             super.sendCommand(sender, cmd, args, message, result)
         }

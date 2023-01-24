@@ -5,21 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c49578c-144c-4dcd-adf1-19824b7b3a1a" name="Changes" comment="Excitement!">
-      <change afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDASubcommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/Platform.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/BaseCommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/core/content/builder/CommandBuilder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDABuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDABuilder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDACommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDACommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAContext.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAPlatform.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDAPlatform.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDASubcommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/JDASubcommand.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestEnv.kt" beforeDir="false" afterPath="$PROJECT_DIR$/command/src/main/kotlin/me/alexirving/lib/command/jda/testenv/TestEnv.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +276,7 @@
       <updated>1674145375188</updated>
       <workItem from="1674145376423" duration="971000" />
       <workItem from="1674504308419" duration="639000" />
-      <workItem from="1674511383425" duration="4262000" />
+      <workItem from="1674511383425" duration="6512000" />
     </task>
     <task id="LOCAL-00001" summary="Excitement!">
       <created>1674512804008</created>
@@ -292,7 +285,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674512804008</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Excitement!">
+      <created>1674516070100</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1674516070100</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

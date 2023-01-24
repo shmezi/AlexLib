@@ -7,8 +7,8 @@ import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions
 abstract class JDACommand(
     name: String,
     val ephemeral: Boolean = true,
-    val defaultPermissions: DefaultMemberPermissions? = null
 ) : BaseCommand<SlashCommandInteractionEvent, JDASender, JDAPermission, JDABuilder>(name) {
-
-
+    var defaultPermissions: DefaultMemberPermissions? = null
+    final override fun builder() = jdaBuilder()
+    abstract fun jdaBuilder(): JDAContext
 }

@@ -20,20 +20,20 @@ abstract class CommandBuilder<U, C : CommandInfo<U>, P : Permission<U>>(
     fun build() = base
 
 
-    fun name(name: String) {
+  open  fun name(name: String) {
         this.base.name = name
     }
 
-    fun arguments(vararg arguments: CommandArgument) {
+    open fun arguments(vararg arguments: CommandArgument) {
         base.setArguments(*arguments)
     }
 
-    fun action(action: C.() -> CommandResult) {
+    open fun action(action: C.() -> CommandResult) {
         base.action = action
     }
 
 
-    fun permission(permission: P) {
+    open fun permission(permission: P) {
         base.permission = permission
     }
 
