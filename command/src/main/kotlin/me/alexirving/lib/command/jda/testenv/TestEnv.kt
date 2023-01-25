@@ -6,5 +6,5 @@ import me.alexirving.lib.util.pq
 
 fun main() {
     val p = JDAPlatform("")
-    p.register(TestCommand().pq())
+    p.register(TestCommand())
 }

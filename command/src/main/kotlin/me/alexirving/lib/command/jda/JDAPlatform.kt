@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
+import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData
 
@@ -19,11 +20,13 @@ typealias JDAB = me.alexirving.lib.command.jda.JDABuilder
 /**
  * A [JDA] implementation of [Platform]
  */
-class JDAPlatform(private val jda: JDA) :
+class JDAPlatform(val jda: JDA) :
     Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB, JDACommand, JDAContext>() {
     constructor(token: String) : this(JDABuilder.createDefault(token).build())
 
     private val listener = JDAListener(this)
+
+     val guildCMDS = mutableMapOf<String, CommandData>()
 
     init {
         jda.addEventListener(listener)
@@ -40,13 +43,16 @@ class JDAPlatform(private val jda: JDA) :
 
     }
 
-    override fun register(command: JDACommand) {
+    fun updateGuilds() {
+        for (g in jda.guilds)
+            g.updateCommands().addCommands(guildCMDS.values).queue()
+    }
+
+    fun register(command: JDACommand, global: Boolean) {
 
         super.register(command)
 
         val data = Commands.slash(command.name, command.description ?: "empty")
-        command.requiredArguments.pq("R")
-
 
         for (arg in command.requiredArguments) {
 
@@ -66,8 +72,15 @@ class JDAPlatform(private val jda: JDA) :
                 s.addOption(typeFromArg(arg), arg.name, arg.description, arg.required)
             data.addSubcommands(s)
         }
-        jda.updateCommands().addCommands(data).queue()
+        if (global) {
+            jda.upsertCommand(data).queue()
+        } else {
+            guildCMDS[command.name] = data
+        }
+    }
 
+    fun unregsiterAll() {
+        jda.updateCommands().queue()
     }
 
 
