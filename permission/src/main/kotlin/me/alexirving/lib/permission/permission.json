@@ -1,0 +1,11 @@
+{
+  "UserId": {
+    "Permission": true,
+    "Permission2": {
+      "Permission": true,
+      "__general__": true
+    }
+
+
+  }
+}
