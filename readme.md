@@ -56,7 +56,10 @@ Examples: TODO
 
 ### Event System <a name="event-system"></a>
 This module features a very flexible and easy to extend Event system for future use.
-The event system contains both class based listeners and an annotation system for ease of use.
+The event system contains three types of listeners:
+- Class based listeners
+- Annotation based listeners
+- Multi-Method listeners
 
 Examples:
 
@@ -88,6 +91,20 @@ class SomeObject {
     }
 }
 
+// Multi-Method listener
+// These also come at startup performance cost but are very easy to use
+class SomeMultiFunctionObject : MultiMethodListener<SomeEvent> {
+    
+    fun onSomeEvent(event: SomeEvent) {
+        println("Hello Some Event!")
+    }
+    
+    fun onSomeEvent2(event: SomeEvent) {
+        println("Hello Some Event 2!")
+    }
+
+}
+
 // Registering both your listeners
 fun main() {
     // Create a new event manager.
@@ -98,6 +115,7 @@ fun main() {
     // Registering our listeners
     syncEventManger.addListener(SomeEventListener())
     asyncEventManger.registerObject(SomeObject())
+    asyncEventManager.registerMultiMethodObject(SomeMultiFunctionObject())
 
     // Adding one manager as a child of the other
     syncEventManager.addChild(asyncEventManager)

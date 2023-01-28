@@ -1,6 +1,7 @@
 package me.alexirving.lib.event
 
 import me.alexirving.lib.event.annotation.Subscribe
+import me.alexirving.lib.event.multi.MultiMethodListener
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.SynchronousQueue
 import java.util.concurrent.ThreadPoolExecutor
@@ -43,12 +44,17 @@ abstract class EventManager(val async: Boolean = true) {
         addListener(EventListener.Companion.Builder(listenerClass, consumer).build())
     }
 
+    /**
+     * Adds a child [EventManager] to this [EventManager].
+     * Keep in mind that this will not add the child to the parent.
+     * WARNING Performance should be kept in mind when adding children.
+     * This should primarily be used in an asynchronous environment.
+     */
     fun addChild(child: EventManager) {
         synchronized(CHILD_LOCK) {
             children.add(child)
         }
     }
-
 
     /**
      * Unregisters all event listeners for a specific [Event].
@@ -85,6 +91,21 @@ abstract class EventManager(val async: Boolean = true) {
         }
     }
 
+    /**
+     * Registers a [MultiMethodListener] into the [EventManager].
+     */
+    inline fun <reified T: Event> registerMultiMethodObject(obj: MultiMethodListener<T>){
+
+        val methods = obj.javaClass.methods.filter {
+            it.canAccess(obj) && (it.parameterCount == 1 && it.parameterTypes[0] == obj.eventClass)
+        }
+
+        methods.forEach { method ->
+            @Suppress("UNCHECKED_CAST")
+            addListener(obj.eventClass, EventConsumer.invoke { method.invoke(obj, it) })
+        }
+
+    }
 
 
     /**
