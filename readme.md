@@ -93,7 +93,7 @@ class SomeObject {
 
 // Multi-Method listener
 // These also come at startup performance cost but are very easy to use
-class SomeMultiFunctionObject : MultiMethodListener<SomeEvent> {
+class SomeMultiFunctionObject : MultiMethodListener<SomeEvent::class.java> {
     
     fun onSomeEvent(event: SomeEvent) {
         println("Hello Some Event!")
