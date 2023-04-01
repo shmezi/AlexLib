@@ -2,11 +2,9 @@ package me.alexirving.lib.database.nosql
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.ReplaceOptions
-import kotlinx.coroutines.runBlocking
 import me.alexirving.lib.database.core.Cacheable
 import me.alexirving.lib.database.core.Database
 import me.alexirving.lib.database.manager.CachedDbManager
-import me.alexirving.lib.util.pq
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 import java.net.ConnectException
@@ -18,42 +16,33 @@ class MongoDbCachedCollection<ID, T : Cacheable<ID>>
     type: Class<T>,
     connection: MongoConnection
 ) :
-    Database<ID, Cacheable<ID>> {
-    private val ec: MongoCollection<Cacheable<ID>>
+    Database<ID, T> {
+    private val ec: MongoCollection<T> = null!!
 
     init {
-        ec = connection.register(dbId, type) as? MongoCollection<Cacheable<ID>>
+        ec
+        connection.register(dbId, type) as? MongoCollection<Cacheable<ID>>
             ?: throw ConnectException("Failed to register mongo collection | or data types mismatched.")
 
     }
 
 
-
     override fun dbDelete(key: ID) {
-        runBlocking {
-            ec.deleteOne(Cacheable<ID>::identifier eq key)
-        }
+        ec.deleteOne(Cacheable<ID>::identifier eq key)
     }
 
-    override fun dbList(async: (items: List<Cacheable<ID>>) -> Unit) {
-        runBlocking {
-            async(ec.find().toList())
-        }
+    override fun dbUpdate(value: T) {
+        ec.replaceOne(Cacheable<ID>::identifier eq value.identifier, value, ReplaceOptions().upsert(true))
     }
 
-    override fun dbUpdate(value: Cacheable<ID>) {
-        runBlocking {
-            ec.replaceOne(Cacheable<ID>::identifier eq value.identifier, value as T, ReplaceOptions().upsert(true))
-        }
-
+    override fun dbReload() {
+        throw Exception("No need for a reload in the mongoDB Database. :)")
     }
 
-    override fun dbGet(id: ID, async: (value: Cacheable<ID>?) -> Unit) {
-        runBlocking {
-            async(ec.findOne(Cacheable<ID>::identifier eq id).pq())
 
-        }
-    }
+    override suspend fun dbList() = ec.find().toList()
 
-    fun getManager(template: T) = CachedDbManager(this, template)
+    override suspend fun dbGet(id: ID) = ec.findOne(Cacheable<ID>::identifier eq id)
+
+    fun getManager(generateT: (identifier: ID) -> T) = CachedDbManager(this, generateT)
 }

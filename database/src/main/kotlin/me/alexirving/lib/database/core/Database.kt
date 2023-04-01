@@ -15,25 +15,25 @@ interface Database<ID, T : Cacheable<ID>> {
     /**
      * Reload the database
      */
-    fun dbReload() {}
+    fun dbReload()
 
     /**
      * Retrieve a data from the database
      */
-    fun dbGet(id: ID, async: (value: T?) -> Unit) {}
+    suspend fun dbGet(id: ID): T?
 
     /**
      * Update data in the database
      */
-    fun dbUpdate(value: T) {}
+    fun dbUpdate(value: T)
 
     /**
      * Delete data in the database
      */
-    fun dbDelete(key: ID) {}
+    fun dbDelete(key: ID)
 
     /**
      * Retrieve a list of contents of the database
      */
-    fun dbList(async: (items: List<T>) -> Unit) {}
+    suspend fun dbList(): List<T>
 }

@@ -8,28 +8,28 @@ import me.alexirving.lib.database.core.Database
  * For example: Caching a text channel while at least one of the members is online.
  *
  */
-open class GroupCachedManager<ID, UserID, T : Cacheable<ID>>(db: Database<ID, Cacheable<ID>>, template: T) :
-    CachedDbManager<ID, T>(db, template) {
-    protected val groups = mutableMapOf<ID, MutableSet<UserID>>()
+open class GroupCachedManager<ID, UserID, T : Cacheable<ID>>(
+    db: Database<ID,T>,
+    generateT: (ID) -> T
+) :
+    CachedDbManager<ID, T>(db, generateT) {
+    private val groups = mutableMapOf<ID, MutableSet<UserID>>()
     private val userCache = mutableMapOf<UserID, MutableSet<ID>>()
 
     fun isUserCached(uuid: UserID) = userCache.contains(uuid)
     fun isGroupCached(uuid: ID) = groups.containsKey(uuid)
-    fun loadUser(groupId: ID, userID: UserID) {
+    suspend fun loadUser(groupId: ID, userID: UserID) {
         groups.getOrPut(groupId) { mutableSetOf() }.add(userID)
         userCache.getOrPut(userID) { mutableSetOf() }.add(groupId)
-        if (!super.cancelUnload(groupId)) super.get(groupId, false) {
-
-        }
+        super.getIfInDb(groupId)
     }
 
 
-    fun getAllOfUser(uuid: UserID): MutableSet<T> {
+    suspend fun getAllOfUser(uuid: UserID): MutableSet<T> {
         val cached = mutableSetOf<T>()
         userCache[uuid]?.forEach { cId ->
-            get(cId) {
-                cached.add(it)
-            }
+            cached.add(getOrCreate(cId))
+
         }
         return cached
     }

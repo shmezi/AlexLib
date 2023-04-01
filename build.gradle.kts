@@ -37,7 +37,7 @@ subprojects {
         repositories {
             maven {
                 name = project.name
-                url = uri("http://repo.canyonnetwork.net/snapshots/")
+                url = uri("http://162.55.70.227:6379/releases")
                 credentials(PasswordCredentials::class)
                 authentication {
                     create<BasicAuthentication>("basic")
