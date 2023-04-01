@@ -8,4 +8,4 @@ dependencies {
     api(project(":task"))
     api(project(":utilities"))
 }
-version  = "3.1 "
+version  = "3.2"
