@@ -3,8 +3,6 @@ package me.alexirving.lib.database.manager
 import me.alexirving.lib.database.core.Cacheable
 import me.alexirving.lib.database.core.Database
 import me.alexirving.lib.task.Scheduler
-import me.alexirving.lib.util.Colors
-import me.alexirving.lib.util.color
 import me.alexirving.lib.util.pq
 import java.time.Duration
 
@@ -15,11 +13,12 @@ import java.time.Duration
  * @param ID type of ID used for storage, example UUID
  * @param T Data struct that is used
  * @param autoUpdate Should the database automatically update every X amount. (-1 for none)
+ * @param safeGuard Weather or not to save on program close.
  */
 open class CachedDbManager<ID, T : Cacheable<ID>>(
     private val db: Database<ID, T>,
     private val generateT: (identifier: ID) -> T,
-    autoUpdate: Long = -1
+    autoUpdate: Long = -1, safeGuard: Boolean = true
 ) {
     private val cache = mutableMapOf<ID, T>() //Cache of all currently loaded users
 
@@ -27,9 +26,10 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
     private val toDelete = mutableSetOf<ID>() //The users that will be remove from the db next update
 
     init {
-        Runtime.getRuntime().addShutdownHook(Thread {
-            update()
-        })
+        if (safeGuard)
+            Runtime.getRuntime().addShutdownHook(Thread {
+                update()
+            })
         if (autoUpdate > 0)
             Scheduler.newScheduler().buildTask { update() }.repeat(Duration.ofSeconds(autoUpdate))
 
@@ -37,13 +37,18 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
 
 
     fun update() {
-        "Updating ${toUpdate.size} items!".color(Colors.BLUE).pq()
-        "Deleting ${toDelete.size} items!".color(Colors.BLUE).pq()
+        if (toUpdate.isEmpty() && toDelete.isEmpty()) {
+            "No updates or deletions run.".pq("DATABASE")
+            return
+        }
+        """Updates: ${toUpdate.size} | Deletions: ${toDelete.size}.""".pq("DATABASE")
         for (id in toUpdate) {
             db.dbUpdate(cache[id] ?: continue)
         }
         for (id in toDelete)
             db.dbDelete(id)
+        toDelete.clear()
+        toUpdate.clear()
     }
 
 
@@ -89,8 +94,26 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
             } else
                 cachedItem
         }
+    }
+
+    /**
+     * Gets an item from the database, if it does not exist create one!
+     */
+    suspend fun getOrCreate(id: ID, async: (item: T) -> Unit): T {
+        val item = getOrCreate(id)
+        async(item)
+
+        toUpdate.add(id)
+
+        return item
+    }
 
 
+    fun update(id: ID): Boolean {
+        return if (cache.containsKey(id)) {
+            toUpdate.add(id)
+            true
+        } else false
     }
 
     /**

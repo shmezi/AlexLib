@@ -17,11 +17,11 @@ class MongoDbCachedCollection<ID, T : Cacheable<ID>>
     connection: MongoConnection
 ) :
     Database<ID, T> {
-    private val ec: MongoCollection<T> = null!!
+    private val ec: MongoCollection<T>
 
     init {
-        ec
-        connection.register(dbId, type) as? MongoCollection<Cacheable<ID>>
+        ec =
+        connection.register(dbId, type) as? MongoCollection<T>
             ?: throw ConnectException("Failed to register mongo collection | or data types mismatched.")
 
     }

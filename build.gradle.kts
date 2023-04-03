@@ -19,7 +19,7 @@ subprojects {
         maven("https://jitpack.io")
     }
 
-    version = "3.1"
+    version = "3.4"
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")

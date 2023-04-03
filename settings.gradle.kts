@@ -1,2 +1,2 @@
 rootProject.name = "AlexLib"
-include("task","event","database","utilities","command","permission")
+include("task","event","database","utilities","command","permission","contexts")
