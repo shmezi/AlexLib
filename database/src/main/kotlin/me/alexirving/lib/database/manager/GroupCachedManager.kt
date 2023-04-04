@@ -9,8 +9,8 @@ import me.alexirving.lib.database.core.Database
  *
  */
 open class GroupCachedManager<ID, UserID, T : Cacheable<ID>>(
-    db: Database<ID,T>,
-    generateT: (ID) -> T
+    db: Database<ID, T>,
+    generateT: (ID,String?, Map<String, Any>) -> T
 ) :
     CachedDbManager<ID, T>(db, generateT) {
     private val groups = mutableMapOf<ID, MutableSet<UserID>>()

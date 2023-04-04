@@ -7,6 +7,7 @@ import me.alexirving.lib.database.core.Database
 import me.alexirving.lib.database.manager.CachedDbManager
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
+import org.litote.kmongo.`in`
 import java.net.ConnectException
 import java.util.*
 
@@ -21,8 +22,8 @@ class MongoDbCachedCollection<ID, T : Cacheable<ID>>
 
     init {
         ec =
-        connection.register(dbId, type) as? MongoCollection<T>
-            ?: throw ConnectException("Failed to register mongo collection | or data types mismatched.")
+            connection.register(dbId, type) as? MongoCollection<T>
+                ?: throw ConnectException("Failed to register mongo collection | or data types mismatched.")
 
     }
 
@@ -39,10 +40,21 @@ class MongoDbCachedCollection<ID, T : Cacheable<ID>>
         throw Exception("No need for a reload in the mongoDB Database. :)")
     }
 
+    override fun dbBulkDelete(values: List<ID>) {
+        ec.deleteMany(Cacheable<ID>::identifier `in` values)
+    }
+
+    override fun dbBulkUpdate(values: List<T>) {
+        val v = values.map {
+            Cacheable<ID>::identifier eq it.identifier
+        }
+//        ec.updateMany(    )
+    }
+
 
     override suspend fun dbList() = ec.find().toList()
 
     override suspend fun dbGet(id: ID) = ec.findOne(Cacheable<ID>::identifier eq id)
 
-    fun getManager(generateT: (identifier: ID) -> T) = CachedDbManager(this, generateT)
+    fun getManager(generateT: (identifier: ID,String?, params: Map<String, Any>) -> T) = CachedDbManager(this, generateT)
 }

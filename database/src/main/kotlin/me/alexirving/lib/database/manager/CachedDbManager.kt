@@ -17,8 +17,9 @@ import java.time.Duration
  */
 open class CachedDbManager<ID, T : Cacheable<ID>>(
     private val db: Database<ID, T>,
-    private val generateT: (identifier: ID) -> T,
-    autoUpdate: Long = -1, safeGuard: Boolean = true
+    private val generateT: (identifier: ID, type: String?, params: Map<String, Any>) -> T,
+    autoUpdate: Long = -1,
+    safeGuard: Boolean = true
 ) {
     private val cache = mutableMapOf<ID, T>() //Cache of all currently loaded users
 
@@ -75,10 +76,10 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
     /**
      * Gets an item from the database, if it does not exist create one!
      */
-    suspend fun getOrCreate(id: ID): T {
+    suspend fun getOrCreate(id: ID, type: String? = null, params: Map<String, Any> = mapOf()): T {
         return if (toDelete.contains(id)) {
             toDelete.remove(id)
-            val newItem = generateT(id)
+            val newItem = generateT(id, type, params)
             toUpdate.add(id)
             cache[id] = newItem
             newItem
@@ -86,7 +87,7 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
             val cachedItem = cache[id]
 
             if (cachedItem == null) {
-                val newItem = db.dbGet(id) ?: generateT(id)
+                val newItem = db.dbGet(id) ?: generateT(id, type, params)
                 toUpdate.add(id)
                 cache[id] = newItem
                 newItem
@@ -99,8 +100,8 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
     /**
      * Gets an item from the database, if it does not exist create one!
      */
-    suspend fun getOrCreate(id: ID, async: (item: T) -> Unit): T {
-        val item = getOrCreate(id)
+    suspend fun getOrCreate(id: ID, type: String? = null, params: Map<String, Any> = mapOf(), async: T.() -> Unit): T {
+        val item = getOrCreate(id, type, params)
         async(item)
 
         toUpdate.add(id)

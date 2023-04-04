@@ -27,10 +27,15 @@ interface Database<ID, T : Cacheable<ID>> {
      */
     fun dbUpdate(value: T)
 
+
+    fun dbBulkUpdate(values: List<T>)
+
     /**
      * Delete data in the database
      */
     fun dbDelete(key: ID)
+
+    fun dbBulkDelete(values: List<ID>)
 
     /**
      * Retrieve a list of contents of the database

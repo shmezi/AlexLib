@@ -29,14 +29,13 @@ data class MongoConnection(private val client: MongoClient, private val name: St
 
     )
 
-    companion object {
-        init {
-            System.setProperty(
-                "org.litote.mongo.test.mapping.service",
-                "org.litote.kmongo.jackson.JacksonClassMappingTypeService"
-            )
-        }
+    init {
+        System.setProperty(
+            "org.litote.mongo.test.mapping.service",
+            "org.litote.kmongo.jackson.JacksonClassMappingTypeService"
+        )
     }
+
 
     private val db: MongoDatabase = client.getDatabase(name)
     private val registries = db.codecRegistry
@@ -55,13 +54,17 @@ data class MongoConnection(private val client: MongoClient, private val name: St
         id: String,
         clazz: Class<T>
     ): MongoCollection<out Cacheable<ID>> {
-
         val collection = db.getCollection(id, clazz)
             .withCodecRegistry(
                 CodecRegistries.fromProviders(
                     UuidCodecProvider(UuidRepresentation.JAVA_LEGACY), registries
                 )
             )
+        db.withCodecRegistry(
+            CodecRegistries.fromProviders(
+                UuidCodecProvider(UuidRepresentation.JAVA_LEGACY), registries
+            )
+        )
         collection.ensureUniqueIndex(Cacheable<ID>::identifier)
         collections[id] = collection
         return collection
