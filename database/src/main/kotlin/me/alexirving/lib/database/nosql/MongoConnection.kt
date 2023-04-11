@@ -2,30 +2,34 @@ package me.alexirving.lib.database.nosql
 
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
-import com.mongodb.client.MongoClient
-import com.mongodb.client.MongoCollection
-import com.mongodb.client.MongoDatabase
+import kotlinx.coroutines.runBlocking
+
 import me.alexirving.lib.database.core.Cacheable
 import me.alexirving.lib.database.core.Connection
 import org.bson.UuidRepresentation
 import org.bson.codecs.UuidCodecProvider
 import org.bson.codecs.configuration.CodecRegistries
-import org.litote.kmongo.KMongo
-import org.litote.kmongo.ensureUniqueIndex
+import org.litote.kmongo.coroutine.CoroutineClient
+import org.litote.kmongo.coroutine.CoroutineCollection
+import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.coroutine.coroutine
+import org.litote.kmongo.reactivestreams.KMongo
+
 
 /**
  * Defines a connection to a mongoDb database
  */
-data class MongoConnection(private val client: MongoClient, private val name: String) :
-    Connection<MongoCollection<out Cacheable<*>>>() {
+data class MongoConnection(private val client: CoroutineClient, private val name: String) :
+    Connection<CoroutineCollection<out Cacheable<*>>>() {
 
     constructor(connection: String, name: String) : this(
+
         KMongo.createClient(
             MongoClientSettings.builder().uuidRepresentation(UuidRepresentation.STANDARD)
                 .applyConnectionString(ConnectionString(connection))
 
                 .build().apply { uuidRepresentation }
-        ), name
+        ).coroutine, name
 
     )
 
@@ -37,10 +41,10 @@ data class MongoConnection(private val client: MongoClient, private val name: St
     }
 
 
-    private val db: MongoDatabase = client.getDatabase(name)
+    private val db: CoroutineDatabase = client.getDatabase(name)
     private val registries = db.codecRegistry
 
-    private val collections = mutableMapOf<String, MongoCollection<out Cacheable<*>>>()
+    private val collections = mutableMapOf<String, CoroutineCollection<out Cacheable<*>>>()
 
 
     override fun get(id: String) = collections[id]
@@ -53,8 +57,9 @@ data class MongoConnection(private val client: MongoClient, private val name: St
     override fun <ID, T : Cacheable<ID>> register(
         id: String,
         clazz: Class<T>
-    ): MongoCollection<out Cacheable<ID>> {
-        val collection = db.getCollection(id, clazz)
+    ): CoroutineCollection<out Cacheable<ID>> {
+
+        val collection = db.database.getCollection(id, clazz).coroutine
             .withCodecRegistry(
                 CodecRegistries.fromProviders(
                     UuidCodecProvider(UuidRepresentation.JAVA_LEGACY), registries
@@ -65,8 +70,13 @@ data class MongoConnection(private val client: MongoClient, private val name: St
                 UuidCodecProvider(UuidRepresentation.JAVA_LEGACY), registries
             )
         )
-        collection.ensureUniqueIndex(Cacheable<ID>::identifier)
-        collections[id] = collection
+        runBlocking {
+            collection.ensureUniqueIndex(Cacheable<ID>::identifier)
+
+            collections[id] = collection
+
+        }
+
         return collection
     }
 }

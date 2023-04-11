@@ -15,7 +15,7 @@ interface Database<ID, T : Cacheable<ID>> {
     /**
      * Reload the database
      */
-    fun dbReload()
+    suspend fun dbReload()
 
     /**
      * Retrieve a data from the database
@@ -25,17 +25,17 @@ interface Database<ID, T : Cacheable<ID>> {
     /**
      * Update data in the database
      */
-    fun dbUpdate(value: T)
+    suspend fun dbUpdate(value: T)
 
 
-    fun dbBulkUpdate(values: List<T>)
+    suspend fun dbBulkUpdate(values: List<T>)
 
     /**
      * Delete data in the database
      */
-    fun dbDelete(key: ID)
+    suspend fun dbDelete(key: ID)
 
-    fun dbBulkDelete(values: List<ID>)
+    suspend fun dbBulkDelete(values: List<ID>)
 
     /**
      * Retrieve a list of contents of the database

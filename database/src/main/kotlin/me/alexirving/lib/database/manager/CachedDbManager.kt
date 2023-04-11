@@ -1,5 +1,6 @@
 package me.alexirving.lib.database.manager
 
+import kotlinx.coroutines.runBlocking
 import me.alexirving.lib.database.core.Cacheable
 import me.alexirving.lib.database.core.Database
 import me.alexirving.lib.task.Scheduler
@@ -29,15 +30,22 @@ open class CachedDbManager<ID, T : Cacheable<ID>>(
     init {
         if (safeGuard)
             Runtime.getRuntime().addShutdownHook(Thread {
-                update()
+                runBlocking {
+                    update()
+
+                }
             })
         if (autoUpdate > 0)
-            Scheduler.newScheduler().buildTask { update() }.repeat(Duration.ofSeconds(autoUpdate))
+            Scheduler.newScheduler().buildTask {
+                runBlocking {
+                    update()
+                }
+            }.repeat(Duration.ofSeconds(autoUpdate))
 
     }
 
 
-    fun update() {
+    suspend fun update() {
         if (toUpdate.isEmpty() && toDelete.isEmpty()) {
             "No updates or deletions run.".pq("DATABASE")
             return

@@ -1,13 +1,15 @@
 package me.alexirving.lib.database.core
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonTypeInfo
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Represents an object that can be cached
  * @param ID Type of identifier
  */
-abstract class Cacheable<ID>(
-    @JsonProperty var identifier: ID
 
-)
+
+
+interface Cacheable<ID>{
+    val identifier: ID
+}
