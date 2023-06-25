@@ -4,6 +4,7 @@ import me.alexirving.lib.command.core.Platform
 import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.argument.CommandArgument
 import me.alexirving.lib.command.core.content.CommandResult
+import me.alexirving.lib.command.jda.resolvers.MappingResolver
 import me.alexirving.lib.util.pq
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -20,19 +21,21 @@ typealias JDAB = me.alexirving.lib.command.jda.JDABuilder
 /**
  * A [JDA] implementation of [Platform]
  */
-class JDAPlatform(val jda: JDA) :
-    Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB, JDACommand, JDAContext>() {
+class JDAPlatform(private val jda: JDA) :
+    Platform<SlashCommandInteractionEvent, JDASender, JDAPermission, JDAB, JDACommand, JDAContext>(false) {
     constructor(token: String) : this(JDABuilder.createDefault(token).build())
 
     private val listener = JDAListener(this)
 
-     val guildCMDS = mutableMapOf<String, CommandData>()
+    internal val guildCMDS = mutableMapOf<String, CommandData>()
 
     init {
         jda.addEventListener(listener)
         "https://discord.com/oauth2/authorize?client_id=${jda.selfUser.id}&scope=bot%20applications.commands&permissions=2147484672".pq(
             "Discord invite link"
         )
+
+        resolver.multiRegister(MappingResolver(), Int::class.java, String::class.java)
     }
 
     private fun typeFromArg(argument: CommandArgument) = when (argument.clazz) {
@@ -43,39 +46,39 @@ class JDAPlatform(val jda: JDA) :
 
     }
 
-    fun updateGuilds() {
+    private fun updateGuilds() {
         for (g in jda.guilds)
             g.updateCommands().addCommands(guildCMDS.values).queue()
     }
 
-    fun register(command: JDACommand, global: Boolean) {
-
+    fun register(command: JDACommand, global: Boolean = true) {
         super.register(command)
 
-        val data = Commands.slash(command.name, command.description ?: "empty")
+        val mainCommand = Commands.slash(command.name, command.description ?: "empty")
 
         for (arg in command.requiredArguments) {
-
-            data.addOption(typeFromArg(arg), arg.name, arg.description, arg.required)
+            mainCommand.addOption(typeFromArg(arg), arg.name, arg.description, true)
         }
-
         for (arg in command.optionalArguments)
-            data.addOption(typeFromArg(arg), arg.name, (arg.description), arg.required)
+            mainCommand.addOption(typeFromArg(arg), arg.name, (arg.description), false)
 
 
-        for (sub in command.subs.values) {
+        for (subCommand in command.subs.values) {
 
-            val s = SubcommandData(sub.name, sub.description ?: "empty")
-            for (arg in sub.requiredArguments)
-                s.addOption(typeFromArg(arg), arg.name, arg.description, arg.required)
-            for (arg in sub.optionalArguments)
-                s.addOption(typeFromArg(arg), arg.name, arg.description, arg.required)
-            data.addSubcommands(s)
+            val subData = SubcommandData(subCommand.name, subCommand.description ?: "empty")
+            for (arg in subCommand.requiredArguments)
+                subData.addOption(typeFromArg(arg), arg.name, arg.description, true)
+            for (arg in subCommand.optionalArguments)
+                subData.addOption(typeFromArg(arg), arg.name, arg.description, false)
+
+            mainCommand.addSubcommands(subData)
+
         }
+
         if (global) {
-            jda.upsertCommand(data).queue()
+            jda.upsertCommand(mainCommand).queue()
         } else {
-            guildCMDS[command.name] = data
+            guildCMDS[command.name] = mainCommand
         }
     }
 
@@ -84,9 +87,9 @@ class JDAPlatform(val jda: JDA) :
     }
 
 
-    override fun buildSubCommand(name: String) = JDASubcommand(name)
+    override fun buildSubCommand(name: String): JDACommand = JDASubcommand(name)
 
-    override fun buildBuilder(base: JDACommand) = JDAB(base, this)
+    override fun buildBuilder(base: JDACommand) = JDAB(base, this, BuilderType.COMMAND)
 
 
     override fun unregister(command: String) {
@@ -130,6 +133,11 @@ class JDAPlatform(val jda: JDA) :
     }
 
     fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
-        sendCommand(event, event.name, event.options) {}
+        sendCommand(event, event.name, mutableListOf<Any>(event.subcommandName ?: return).apply {
+            for (x in event.options)
+                add(x)
+        }) {}
     }
+
+
 }

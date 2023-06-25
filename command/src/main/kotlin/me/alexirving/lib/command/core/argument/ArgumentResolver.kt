@@ -9,7 +9,7 @@ package me.alexirving.lib.command.core.argument
  * @param preResolved Weather the argument is predefined
  */
 abstract class ArgumentResolver<U, T : Any>(
-    val clazz: Class<*>,
+    val clazz: Class<*>? = null,
     val preResolved: Boolean = false
 ) {
 

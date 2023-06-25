@@ -1,7 +1,13 @@
+plugins {
+    kotlin("jvm")
+}
 dependencies {
 
-    api("it.unimi.dsi:fastutil:8.5.11")
-    api("com.github.JCTools:JCTools:-SNAPSHOT")
+    implementation("it.unimi.dsi:fastutil:8.5.12")
+    implementation(kotlin("stdlib-jdk8"))
 
 }
-version  = "3.0"
+version = "3.0"
+repositories {
+    mavenCentral()
+}

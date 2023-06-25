@@ -6,6 +6,7 @@ import me.alexirving.lib.command.core.argument.Argument
 import me.alexirving.lib.command.core.argument.CommandArgument
 import me.alexirving.lib.command.core.content.builder.CommandBuilder
 import me.alexirving.lib.command.core.content.builder.Context
+import me.alexirving.lib.util.pq
 
 
 /**
@@ -38,6 +39,8 @@ abstract class BaseCommand<U,
 
 
     val subs = mutableMapOf<String, BC>()
+
+
     var action: ((context: C) -> CommandResult)? = null
 
 
@@ -46,11 +49,11 @@ abstract class BaseCommand<U,
      * @param name The name of the sub-command
      * @return The sub-command if it exists
      */
-    fun subIfExists(name: String): BC? {
-        return if (subs.isNotEmpty())
+    private fun subIfExists(name: String): BC? {
+        return (if (subs.isNotEmpty())
             subs[name]
         else
-            null
+            null).pq()
 
     }
 
@@ -85,7 +88,7 @@ abstract class BaseCommand<U,
      * Register a sub-command to the command.
      * @param command The sub-command to register
      */
-    fun registerSub(command: BC) {
+    open fun registerSub(command: BC) {
         subs[command.name] = command
     }
 
@@ -135,26 +138,43 @@ abstract class BaseCommand<U,
             return
 
         }
-
-        if (args.isEmpty()) result(runner()) else {
-            val arg = args[0]
-            if (arg is String)
-                subIfExists(arg)?.runCommand(platform, sender, arg, args.drop(1)) {
-                    result(it)
-                } ?: result(runner())
-            else result(runner())
+        if (args.isEmpty()) {
+            result(runner())
+            return
         }
+        val arg = args[0]
+        if (arg !is String) {
+            result(runner())
+            return
+        }
+
+
+        subIfExists(arg)?.runCommand(platform, sender, arg, args.drop(1)) {
+            result(it)
+        } ?: result(runner())
     }
+
+
+    private fun formatSub(map: MutableMap<String, BC>) =
+        if (map.isEmpty()) "none" else "\n${
+            subs.map { it }.map { "  - ${it.key}:${it.value.subToString()}\n" }.toString()
+                .removePrefix("[").removeSuffix("]")
+        }"
 
 
     /**
      * A console-readable text version of the command.
      */
+    private fun subToString(): String =
+        """
+    Permissions: $permission
+    SubCommands: ${formatSub(subs)}
+"""
+
     override fun toString(): String =
         """
-    Command: $name
-    Permissions: $permission
-    SubCommands:
-    ${subs.map { it }.map { "  - ${it.key}${it.value}" }.toString().removePrefix("[").removeSuffix("]")}
+Command: $name
+Permissions: $permission
+SubCommands: ${formatSub(subs)}
 """
 }

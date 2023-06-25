@@ -24,10 +24,10 @@ abstract class Platform<
         P : Permission<U>,
         CB : CommandBuilder<U, C, P, CB, BC, CX>,
         BC : BaseCommand<U, C, P, BC, CB, CX>,
-        CX : Context<U, C, P, BC, CB, CX>> {
+        CX : Context<U, C, P, BC, CB, CX>>(enableDefaults: Boolean = true) {
 
-    protected open val mappings = mutableMapOf<String, BC>()
-    val resolver = ArgumentParser<U>()
+    /*protected*/ open val mappings = mutableMapOf<String, BC>()
+    val resolver = ArgumentParser<U>(enableDefaults)
     private var messages = mutableMapOf<CommandResult, String>()
 
     /**
@@ -101,7 +101,9 @@ abstract class Platform<
      * @param name Name of the sub-command
      * @return The created [BC] sub-command
      */
-    abstract fun buildSubCommand(name: String): BC
+    open fun buildSubCommand(name: String): BC {
+        throw NotImplementedError("BuildSubCommand must be implemented unless there is a platform specific method redefining the sub() method")
+    }
 
     /**
      * Build a [CB]

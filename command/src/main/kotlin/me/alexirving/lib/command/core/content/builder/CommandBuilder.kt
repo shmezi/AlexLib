@@ -17,19 +17,22 @@ import me.alexirving.lib.command.core.content.CommandResult
  * @param base The [BC] that will be affected.
  * @param platform The platform used.
  */
-abstract class CommandBuilder<U,
+abstract class CommandBuilder<
+        U,
         C : CommandInfo<U>,
         P : Permission<U>,
         CB : CommandBuilder<U, C, P, CB, BC, CX>,
         BC : BaseCommand<U, C, P, BC, CB, CX>,
         CX : Context<U, C, P, BC, CB, CX>>(
     private var base: BC,
-    private val platform: Platform<U, C, P, CB, BC, CX>
+    private val platform: Platform<U, C, P, CB, BC, CX>,
 ) {
+
+
     /**
      * Returns the built BaseCommand
      */
-    fun build() = base
+    open fun build() = base
 
     /**
      * Set the name of the current context's command name
@@ -46,6 +49,7 @@ abstract class CommandBuilder<U,
     open fun arguments(vararg arguments: CommandArgument) {
         base.setArguments(*arguments)
     }
+
     /**
      * Set the action of the current context's command action
      * @param action The action to run, it must return a [CommandResult] indicating if the command was executed.
@@ -70,12 +74,13 @@ abstract class CommandBuilder<U,
         base.registerSub(sub)
     }
 
+
     /**
      * Gives a command builder where you can create a sub-command which will be registered under the current context
      * @param name Name of command
      * @param command The builder of the new area.
      */
-    fun sub(
+ open   fun sub(
         name: String,
         command: CB.() -> Unit
     ) {

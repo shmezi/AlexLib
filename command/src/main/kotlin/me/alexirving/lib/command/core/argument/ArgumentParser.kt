@@ -7,11 +7,12 @@ import me.alexirving.lib.command.core.argument.internal.UUIDResolver
 /**
  * The [ArgumentParser] allows the parsing of a value with type to be parsed using a registered [ArgumentResolver]
  */
-class ArgumentParser<U> {
+class ArgumentParser<U>(enableDefaults: Boolean = true) {
     private val mapping = mutableMapOf<Class<*>, ArgumentResolver<U, *>>()
 
     init {
-        register(IntResolver(), UUIDResolver(), StringResolver())
+        if (enableDefaults)
+            register(IntResolver(), UUIDResolver(), StringResolver())
     }
 
     /**
@@ -33,7 +34,13 @@ class ArgumentParser<U> {
      */
     fun register(vararg resolvers: ArgumentResolver<U, *>) {
         resolvers.forEach {
-            mapping[it.clazz] = it
+            mapping[it.clazz?:throw NullPointerException("No class provided even though it was not registered through multiRegister!")] = it
+        }
+    }
+
+    fun multiRegister(resolver: ArgumentResolver<U, *>, vararg forClasses: Class<*>) {
+        for (clazz in forClasses) {
+            mapping[clazz] = resolver
         }
     }
 

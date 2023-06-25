@@ -9,7 +9,8 @@ import kotlinx.serialization.Serializable
  */
 
 
-
-interface Cacheable<ID>{
+interface Cacheable<ID> {
+    @SerialName("_id")
+    @Serializable(with = UUIDSerializer::class)
     val identifier: ID
 }

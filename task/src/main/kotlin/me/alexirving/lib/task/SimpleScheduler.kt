@@ -1,6 +1,6 @@
 package me.alexirving.lib.task
 
-import org.jctools.queues.MpscUnboundedArrayQueue
+import me.alexirving.lib.task.ExecutionType.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.TimeUnit
@@ -26,8 +26,8 @@ class SimpleScheduler : Scheduler {
             taskQueue.drain {
                 if (!it.alive) return@drain
                 when (it.executionType) {
-                    ExecutionType.SYNC -> handleTask(it)
-                    ExecutionType.ASYNC -> forkJoinPool.submit {
+                    SYNC -> handleTask(it)
+                    ASYNC -> forkJoinPool.submit {
                         handleTask(it)
                     }
                 }
@@ -43,8 +43,8 @@ class SimpleScheduler : Scheduler {
 
     private fun safeExecute(task: SimpleTask) {
         when (task.executionType) {
-            ExecutionType.SYNC -> taskQueue.offer(task)
-            ExecutionType.ASYNC -> {
+            SYNC -> taskQueue.offer(task)
+            ASYNC -> {
                 forkJoinPool.submit {
                     if (task.alive) {
                         handleTask(task)

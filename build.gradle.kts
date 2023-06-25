@@ -19,7 +19,7 @@ subprojects {
         maven("https://jitpack.io")
     }
 
-    version = "3.4.3.7"
+    version = "3.4.3.8"
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
@@ -34,17 +34,7 @@ subprojects {
                 version = project.version.toString()
             }
         }
-        repositories {
-            maven {
-                name = project.name
-                url = uri("http://162.55.70.227:6379/releases")
-                credentials(PasswordCredentials::class)
-                authentication {
-                    create<BasicAuthentication>("basic")
-                }
-                isAllowInsecureProtocol = true
-            }
-        }
+
     }
 
     tasks {
@@ -57,4 +47,7 @@ subprojects {
             useJUnitPlatform()
         }
     }
+}
+dependencies {
+    implementation(kotlin("stdlib-jdk8"))
 }
