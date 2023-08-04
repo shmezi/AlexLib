@@ -1,11 +1,11 @@
-package me.alexirving.lib.command.core.argument.internal
+package me.alexirving.lib.command.core.argument.builtinresolvers
 
 
 import me.alexirving.lib.command.core.argument.ArgumentResolver
 import me.alexirving.lib.command.core.argument.CommandArgument
 
 class FloatResolver<U> :
-    ArgumentResolver<U, Float>(Float::class.java) {
+    ArgumentResolver<U, Float>() {
 
     override fun resolve(sender: U, text: String, resolved: (resolved: Float) -> Unit): Boolean {
         resolved(text.toFloatOrNull() ?: return false)

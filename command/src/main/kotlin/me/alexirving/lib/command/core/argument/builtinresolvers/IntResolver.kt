@@ -1,11 +1,11 @@
-package me.alexirving.lib.command.core.argument.internal
+package me.alexirving.lib.command.core.argument.builtinresolvers
 
 
 import me.alexirving.lib.command.core.argument.ArgumentResolver
 import me.alexirving.lib.command.core.argument.CommandArgument
 
 class IntResolver<U> :
-    ArgumentResolver<U, Int>(Int::class.java) {
+    ArgumentResolver<U, Int>() {
 
     override fun resolve(sender: U, text: String, resolved: (resolved: Int) -> Unit): Boolean {
         resolved(text.toIntOrNull() ?: return false)

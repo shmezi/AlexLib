@@ -1,13 +1,12 @@
 package me.alexirving.lib.command.core
 
 /**
- * Represents an implementation of a permission.
- * Allow / Deny a command to a user in any platform
+ * The permission a [U] needs to execute the command
  */
 interface Permission<U> {
     /**
-     * Check if a user has the permission
-     * @param user The user to check
+     * Check if a user has the permission needed to execute the command.
+     * @param user The user to check against.
      * @return If the user has permission to use the command.
      */
     fun hasPermission(user: U): Boolean

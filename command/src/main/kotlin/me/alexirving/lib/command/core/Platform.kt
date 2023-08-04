@@ -11,7 +11,8 @@ import me.alexirving.lib.command.core.content.builder.Context
 import me.alexirving.lib.util.pq
 
 /**
- * A platform implementation of the command system
+ * A Command platform
+ * The entry point into this Library, use this to register commands, arguments, etc.
  * @param C Type of [CommandInfo] that the platform uses.
  * @param P Type of [Permission] that the platform uses.
  * @param BC Type of [BaseCommand] that the platform uses.
@@ -26,12 +27,12 @@ abstract class Platform<
         BC : BaseCommand<U, C, P, BC, CB, CX>,
         CX : Context<U, C, P, BC, CB, CX>>(enableDefaults: Boolean = true) {
 
-    /*protected*/ open val mappings = mutableMapOf<String, BC>()
-    val resolver = ArgumentParser<U>(enableDefaults)
+    open val mappings = mutableMapOf<String, BC>()
+    val parser = ArgumentParser<U>(enableDefaults)
     private var messages = mutableMapOf<CommandResult, String>()
 
     /**
-     * Get's the set [CommandResult] if none exists gets default
+     * Gets the set [CommandResult] message if none exists gets the default
      * @param message The message to get.
      * @return The messages.
      */

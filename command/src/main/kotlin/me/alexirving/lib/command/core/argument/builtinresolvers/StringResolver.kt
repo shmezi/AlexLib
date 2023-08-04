@@ -1,11 +1,11 @@
-package me.alexirving.lib.command.core.argument.internal
+package me.alexirving.lib.command.core.argument.builtinresolvers
 
 
 import me.alexirving.lib.command.core.argument.ArgumentResolver
 import me.alexirving.lib.command.core.argument.CommandArgument
 
 class StringResolver<U> :
-    ArgumentResolver<U, String>(String::class.java, true) {
+    ArgumentResolver<U, String>(true) {
 
     override fun resolvePreDefined(text: Any, resolved: (resolved: Any) -> Unit) {
         resolved(text)

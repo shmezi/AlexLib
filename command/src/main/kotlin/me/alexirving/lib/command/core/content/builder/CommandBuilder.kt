@@ -8,7 +8,8 @@ import me.alexirving.lib.command.core.content.CommandInfo
 import me.alexirving.lib.command.core.content.CommandResult
 
 /**
- * A [CommandBuilder] helps build a [BC]
+ * The builder of [BC].
+ * It is recommended to not to create an instance of this, instead follow the guide. The builder will be passed with a [CX]
  * @param C Type of [CommandInfo] that the platform uses.
  * @param P Type of [Permission] that the platform uses.
  * @param BC Type of [BaseCommand] that the platform uses.
@@ -35,7 +36,7 @@ abstract class CommandBuilder<
     open fun build() = base
 
     /**
-     * Set the name of the current context's command name
+     * Set the command's name
      * @param name The name to set to.
      */
     open fun name(name: String) {
@@ -43,7 +44,7 @@ abstract class CommandBuilder<
     }
 
     /**
-     * Set the arguments of the current context's command
+     * Set the  command's arguments
      * @param arguments The arguments to use.
      */
     open fun arguments(vararg arguments: CommandArgument) {
@@ -76,11 +77,11 @@ abstract class CommandBuilder<
 
 
     /**
-     * Gives a command builder where you can create a sub-command which will be registered under the current context
+     * Creates a sub command inside of the current parent Commmand / Sub-Command
      * @param name Name of command
-     * @param command The builder of the new area.
+     * @param command The builder of the command.
      */
- open   fun sub(
+    open fun sub(
         name: String,
         command: CB.() -> Unit
     ) {

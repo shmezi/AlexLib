@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping
 import net.dv8tion.jda.api.interactions.commands.OptionType
 
-class MappingResolver : ArgumentResolver<SlashCommandInteractionEvent, OptionMapping>(OptionMapping::class.java, true) {
+class MappingResolver : ArgumentResolver<SlashCommandInteractionEvent, OptionMapping>( true) {
     override fun resolvePreDefined(text: Any, resolved: (resolved: Any) -> Unit) {
         val option = text as OptionMapping
         resolved(

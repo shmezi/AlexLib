@@ -2,14 +2,12 @@ package me.alexirving.lib.command.core.argument
 
 /**
  * An argument represents a command argument with a type
- * An [ArgumentResolver] Resolves it from text
+ * An [ArgumentResolver] Resolves it
  * @param U Type of sender
- * @param T Datatype of Class to resolve
- * @param clazz The class to resolve
- * @param preResolved Weather the argument is predefined
+ * @param T Type this resolves
+ * @param preResolved Defines if the argument resolver needs to
  */
 abstract class ArgumentResolver<U, T : Any>(
-    val clazz: Class<*>? = null,
     val preResolved: Boolean = false
 ) {
 

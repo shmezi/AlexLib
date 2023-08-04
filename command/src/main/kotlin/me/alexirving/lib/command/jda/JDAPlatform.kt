@@ -35,7 +35,7 @@ class JDAPlatform(private val jda: JDA) :
             "Discord invite link"
         )
 
-        resolver.multiRegister(MappingResolver(), Int::class.java, String::class.java)
+        parser.multiRegister(MappingResolver(), Int::class.java, String::class.java)
     }
 
     private fun typeFromArg(argument: CommandArgument) = when (argument.clazz) {

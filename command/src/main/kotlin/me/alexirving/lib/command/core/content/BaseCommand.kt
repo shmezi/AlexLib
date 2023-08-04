@@ -113,7 +113,7 @@ abstract class BaseCommand<U,
 
             val arguments = mutableMapOf<String, Argument>()
             for ((index, arg) in requiredArguments.withIndex()) {
-                if (!platform.resolver.resolve(arg.clazz, arg.predefined, sender, args[index]) {
+                if (!platform.parser.resolve(arg.clazz, arg.predefined, sender, args[index]) {
                         arguments[arg.name] = Argument(it)
                     }) {
                     return CommandResult.WRONG_ARG_TYPE
@@ -125,7 +125,7 @@ abstract class BaseCommand<U,
                     break
 
                 val r = optionalArguments[index]
-                platform.resolver.resolve(r.clazz, r.predefined, sender, arg) {
+                platform.parser.resolve(r.clazz, r.predefined, sender, arg) {
                     arguments[r.name] = Argument(it)
                 }
             }

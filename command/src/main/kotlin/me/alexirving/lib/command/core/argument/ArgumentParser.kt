@@ -1,18 +1,21 @@
 package me.alexirving.lib.command.core.argument
 
-import me.alexirving.lib.command.core.argument.internal.IntResolver
-import me.alexirving.lib.command.core.argument.internal.StringResolver
-import me.alexirving.lib.command.core.argument.internal.UUIDResolver
+import me.alexirving.lib.command.core.argument.builtinresolvers.IntResolver
+import me.alexirving.lib.command.core.argument.builtinresolvers.StringResolver
+import me.alexirving.lib.command.core.argument.builtinresolvers.UUIDResolver
+import java.util.*
 
 /**
- * The [ArgumentParser] allows the parsing of a value with type to be parsed using a registered [ArgumentResolver]
+ * The [ArgumentResolver] allows resolving
  */
 class ArgumentParser<U>(enableDefaults: Boolean = true) {
     private val mapping = mutableMapOf<Class<*>, ArgumentResolver<U, *>>()
 
     init {
         if (enableDefaults)
-            register(IntResolver(), UUIDResolver(), StringResolver())
+            register(Int::class.java, IntResolver())
+                .register(UUID::class.java, UUIDResolver())
+                .register(String::class.java, StringResolver())
     }
 
     /**
@@ -21,7 +24,7 @@ class ArgumentParser<U>(enableDefaults: Boolean = true) {
      * @param resolver Method to resolve the argument.
      */
     fun <T : Any> register(clazz: Class<*>, resolver: (sender: U, text: String) -> T?) {
-        mapping[clazz] = object : ArgumentResolver<U, T>(clazz) {
+        mapping[clazz] = object : ArgumentResolver<U, T>() {
             override fun resolve(sender: U, text: String, resolved: (resolved: T) -> Unit): Boolean {
                 return resolver(sender, text) == null
             }
@@ -29,15 +32,19 @@ class ArgumentParser<U>(enableDefaults: Boolean = true) {
     }
 
     /**
-     * Registers new [ArgumentResolver]s.
-     * @param resolvers The resolvers to register
+     * Registers a new [ArgumentResolver].
+     * @param resolver The resolvers to register
      */
-    fun register(vararg resolvers: ArgumentResolver<U, *>) {
-        resolvers.forEach {
-            mapping[it.clazz?:throw NullPointerException("No class provided even though it was not registered through multiRegister!")] = it
-        }
+    fun register(clazz: Class<*>, resolver: ArgumentResolver<U, *>): ArgumentParser<U> {
+        mapping[clazz] = resolver
+        return this
     }
 
+    /**
+     * Registers a new [ArgumentResolver] to multiple classes at once/
+     * @param resolver The resolver to register for the classes.
+     * @param forClasses The classes to register the argument resolver for.
+     */
     fun multiRegister(resolver: ArgumentResolver<U, *>, vararg forClasses: Class<*>) {
         for (clazz in forClasses) {
             mapping[clazz] = resolver

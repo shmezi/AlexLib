@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 
 open class AttachmentResolver :
-    ArgumentResolver<SlashCommandInteractionEvent, Message.Attachment>(Message.Attachment::class.java, true)
+    ArgumentResolver<SlashCommandInteractionEvent, Message.Attachment>(true)
 
 class AttachmentArgumenr(
     name: String, description: String = "No argument has been provided!", required: Boolean = true

@@ -1,6 +1,6 @@
 plugins {
     kotlin("plugin.serialization") version "1.8.10"
-    kotlin("jvm")
+    kotlin("jvm") version "1.8.0"
 }
 dependencies {
     api("org.litote.kmongo:kmongo-coroutine:4.9.0")
@@ -14,6 +14,4 @@ dependencies {
 version = "3.4.4.3"
 repositories {
     mavenCentral()
-}
-kotlin {
 }
