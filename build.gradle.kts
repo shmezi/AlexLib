@@ -31,10 +31,11 @@ subprojects {
             maven {
                 name = "Ezra"
                 url = uri("https://maven.ezra.lol/#/releases")
-                credentials {
+                credentials(PasswordCredentials::class) {
                     username = System.getenv("EZRA_USER")
                     password = System.getenv("EZRA_PASS")
                 }
+
             }
         }
         publications {
