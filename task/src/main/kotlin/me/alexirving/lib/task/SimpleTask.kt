@@ -5,11 +5,11 @@ import java.lang.invoke.MethodHandles
 import java.lang.invoke.VarHandle
 import java.util.function.Supplier
 
-class SimpleTask(
+internal class SimpleTask(
     override val id: Int,
     val task: Supplier<TaskSchedule>,
     override val executionType: ExecutionType,
-    val owner: SimpleScheduler
+    private val owner: SimpleScheduler
 ) : Task {
 
     @Volatile

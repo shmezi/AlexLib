@@ -11,13 +11,12 @@ import java.util.function.Consumer
 /**
  * Main event manager class. This class is responsible for registering and unregistering events, as well as
  * dispatching events to their respective consumers.
- * EventManager can deploy asynchronous events to a thread pool, or synchronous events to the main thread.
+ * EventManager can deploy asynchronous events to a thread pool, or synchronous events to the thread that fired the event.
  */
-abstract class EventManager(val async: Boolean = true) {
+open class EventManager(maxThreads: Int = 1) {
 
-    private val eventListeners: MutableMap<Class<out Event>, MutableList<EventConsumer<*>>> = ConcurrentHashMap()
-    private val threadPool: ThreadPoolExecutor = ThreadPoolExecutor(0, 10, 60L, TimeUnit.SECONDS, SynchronousQueue())
-
+    private val eventListeners: MutableMap<Class<out Event>, MutableSet<EventConsumer<*>>> = ConcurrentHashMap()
+    private val executor: ThreadPoolExecutor = ThreadPoolExecutor(1, maxThreads, 60L, TimeUnit.SECONDS, SynchronousQueue())
     private val children: MutableSet<EventManager> = mutableSetOf()
 
     /**
@@ -25,7 +24,7 @@ abstract class EventManager(val async: Boolean = true) {
      */
     fun <T: Event> addListener(listenerClass: Class<T>, consumer: EventConsumer<T>) {
         if (!eventListeners.containsKey(listenerClass)) {
-            eventListeners[listenerClass] = mutableListOf()
+            eventListeners[listenerClass] = mutableSetOf()
         }
         eventListeners[listenerClass]!!.add(consumer)
     }
@@ -101,7 +100,6 @@ abstract class EventManager(val async: Boolean = true) {
         }
 
         methods.forEach { method ->
-            @Suppress("UNCHECKED_CAST")
             addListener(obj.eventClass, EventConsumer.invoke { method.invoke(obj, it) })
         }
 
@@ -114,19 +112,16 @@ abstract class EventManager(val async: Boolean = true) {
      * If the event is synchronous, it will be dispatched to the main thread.
      */
     fun <T: Event> callEvent(event: T) {
-        if (async) {
-            threadPool.execute { dispatchEvent(event) }
-        }
-        else {
+        if (event.async) {
+            executor.execute { dispatchEvent(event) }
+        } else {
             dispatchEvent(event)
         }
     }
 
     private fun <T: Event> dispatchEvent(event: T) {
         synchronized(CHILD_LOCK) {
-            if (event is CancellableEvent && event.cancelled) return
             val consumers = eventListeners[event.javaClass] ?: return
-
             consumers.forEach {
                 (it as EventConsumer<T>).accept(event)
             }
@@ -138,16 +133,6 @@ abstract class EventManager(val async: Boolean = true) {
 
     companion object{
         private val CHILD_LOCK = Any()
-
-        /**
-         * Creates a new [EventManager] with synchronous events handling
-         */
-        fun sync() = object : EventManager(false) {}
-
-        /**
-         * Creates a new [EventManager] with asynchronous events handling
-         */
-        fun async() = object : EventManager(true) {}
     }
 
 

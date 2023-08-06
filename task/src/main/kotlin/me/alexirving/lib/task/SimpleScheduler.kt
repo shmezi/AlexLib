@@ -1,6 +1,7 @@
 package me.alexirving.lib.task
 
 import me.alexirving.lib.task.ExecutionType.*
+import org.jctools.queues.MpscUnboundedArrayQueue
 import java.util.concurrent.Executors
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.TimeUnit
@@ -10,7 +11,7 @@ import java.util.function.Supplier
 /**
  * A simple scheduler implementation.
  */
-class SimpleScheduler : Scheduler {
+internal class SimpleScheduler : Scheduler {
 
     init {
         val thread = Thread {

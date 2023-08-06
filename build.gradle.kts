@@ -25,16 +25,26 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
         implementation("gradle.plugin.com.github.johnrengelman:shadow:7.1.2")
     }
+
     publishing {
+        repositories {
+            maven {
+                name = "Ezra"
+                url = uri("https://maven.ezra.lol/#/releases")
+                credentials {
+                    username = System.getenv("EZRA_USER")
+                    password = System.getenv("EZRA_PASS")
+                }
+            }
+        }
         publications {
             create<MavenPublication>("maven") {
                 from(components["java"])
-                groupId = project.group.toString()
                 artifactId = project.name
+                groupId = project.group.toString()
                 version = project.version.toString()
             }
         }
-
     }
 
     tasks {
